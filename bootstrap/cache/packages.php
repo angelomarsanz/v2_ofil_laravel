@@ -1,13 +1,13 @@
 <?php return array (
   'anandsiddharth/laravel-paytm-wallet' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Anand\\LaravelPaytmWallet\\PaytmWalletServiceProvider',
-    ),
     'aliases' => 
     array (
       'PaytmWallet' => 'Anand\\LaravelPaytmWallet\\Facades\\PaytmWallet',
+    ),
+    'providers' => 
+    array (
+      0 => 'Anand\\LaravelPaytmWallet\\PaytmWalletServiceProvider',
     ),
   ),
   'anhskohbo/no-captcha' => 
@@ -23,14 +23,14 @@
   ),
   'barryvdh/laravel-dompdf' => 
   array (
+    'aliases' => 
+    array (
+      'PDF' => 'Barryvdh\\DomPDF\\Facade\\Pdf',
+      'Pdf' => 'Barryvdh\\DomPDF\\Facade\\Pdf',
+    ),
     'providers' => 
     array (
       0 => 'Barryvdh\\DomPDF\\ServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Pdf' => 'Barryvdh\\DomPDF\\Facade\\Pdf',
-      'PDF' => 'Barryvdh\\DomPDF\\Facade\\Pdf',
     ),
   ),
   'baselrabia/myfatoorah-with-laravel' => 
@@ -42,13 +42,13 @@
   ),
   'cartalyst/stripe-laravel' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Cartalyst\\Stripe\\Laravel\\StripeServiceProvider',
-    ),
     'aliases' => 
     array (
       'Stripe' => 'Cartalyst\\Stripe\\Laravel\\Facades\\Stripe',
+    ),
+    'providers' => 
+    array (
+      0 => 'Cartalyst\\Stripe\\Laravel\\StripeServiceProvider',
     ),
   ),
   'kreativdev/saas-installer' => 
@@ -168,15 +168,29 @@
       0 => 'RachidLaasri\\LaravelInstaller\\Providers\\LaravelInstallerServiceProvider',
     ),
   ),
-  'simplesoftwareio/simple-qrcode' => 
+  'reda/garantias' => 
   array (
     'providers' => 
     array (
-      0 => 'SimpleSoftwareIO\\QrCode\\QrCodeServiceProvider',
+      0 => 'Reda\\Garantias\\GarantiasServiceProvider',
     ),
+  ),
+  'reda/integraciones' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Reda\\Integraciones\\IntegracionesServiceProvider',
+    ),
+  ),
+  'simplesoftwareio/simple-qrcode' => 
+  array (
     'aliases' => 
     array (
       'QrCode' => 'SimpleSoftwareIO\\QrCode\\Facades\\QrCode',
+    ),
+    'providers' => 
+    array (
+      0 => 'SimpleSoftwareIO\\QrCode\\QrCodeServiceProvider',
     ),
   ),
   'spatie/laravel-ignition' => 

@@ -60,6 +60,10 @@ if (buildGar) {
                ]
            }
        });
+
+    // Compilar entry jQuery del plugin Garantías (inyecciones DOM y estilos del plugin)
+    mix.js('packages/Reda/Garantias/resources/js/jquery/main.js', 'public/js/garantias-jq.js')
+       .sass('packages/Reda/Garantias/resources/sass/jquery/main.scss', 'public/css/garantias-jq.css');
 }
 
 // 4. LÓGICA DE SUBIDA (RESTABLECIDA A TU VERSIÓN ORIGINAL)
@@ -99,6 +103,9 @@ mix.then(() => {
             console.log('🚀 Subiendo Garantías...');
             uploadPuntual('public/js/garantias.js', `${remotePathJs}/garantias.js`, 'js_gar');
             uploadPuntual('public/css/garantias.css', `${remotePathCss}/garantias.css`, 'css_gar');
+            // Subir assets jQuery del plugin Garantías
+            uploadPuntual('public/js/garantias-jq.js', `${remotePathJs}/garantias-jq.js`, 'js_gar_jq');
+            uploadPuntual('public/css/garantias-jq.css', `${remotePathCss}/garantias-jq.css`, 'css_gar_jq');
         }
     }
 });

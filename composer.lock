@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "593efcd52464c681f7f5ac1ef321b291",
+    "content-hash": "411a20f9d93bc839865177d2f658671a",
     "packages": [
         {
             "name": "academe/authorizenet-objects",
@@ -8040,6 +8040,68 @@
             "time": "2025-03-20T12:51:47+00:00"
         },
         {
+            "name": "reda/garantias",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "packages/Reda/Garantias",
+                "reference": "d54ce0d58b9381199b253a2308145fd9ae10c866"
+            },
+            "require": {
+                "illuminate/support": "^11.0",
+                "php": "^8.2"
+            },
+            "type": "laravel-package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Reda\\Garantias\\GarantiasServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Reda\\Garantias\\": "src/"
+                }
+            },
+            "description": "Módulo de Garantías con React/Vite para el CRM de Laravel.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "reda/integraciones",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "packages/Reda/Integraciones",
+                "reference": "76036f65854a6b7589a89d0cceddc466f0a93eae"
+            },
+            "require": {
+                "illuminate/support": "^11.0",
+                "php": "^8.2"
+            },
+            "type": "laravel-package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Reda\\Integraciones\\IntegracionesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Reda\\Integraciones\\": "src/"
+                }
+            },
+            "description": "Módulo de Integraciones de Mercado Libre, Infocasas y otros.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "rmccue/requests",
             "version": "v2.0.15",
             "source": {
@@ -13987,7 +14049,10 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": {
+        "reda/garantias": 20,
+        "reda/integraciones": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -13995,6 +14060,6 @@
         "ext-curl": "*",
         "ext-json": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }
