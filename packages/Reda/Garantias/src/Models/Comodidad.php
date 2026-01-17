@@ -1,0 +1,18 @@
+<?php
+
+namespace Reda\Garantias\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Comodidad extends Model
+{
+    use HasFactory;
+
+    protected $fillable = 
+        [
+            "id_infocasas",
+            "descripcion",
+            "tipo_propiedad_aplica"
+        ];
+}
