@@ -27,3 +27,5 @@ Homestead.yaml
 # Otros
 .env_original
 documentacion/
+packages copy/
+* copy/
