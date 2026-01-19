@@ -11,6 +11,8 @@
 
 .env
 .env.backup
+.env_original
+.env*
 .phpunit.result.cache
 
 # Archivos de paquetes y sistema
@@ -25,7 +27,6 @@ Homestead.json
 Homestead.yaml
 
 # Otros
-.env_original
-documentacion/
-packages copy/
-* copy/
+/documentacion/
+*copy*
+*original*
