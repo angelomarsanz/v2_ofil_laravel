@@ -227,7 +227,7 @@ export const Indice = () => {
       tipo_agencia_agente : tipoAgenciaAgente.current,
       url_almacenamiento : urlAlmacenamiento.current
     });
-    navigate('/seleccionar-aseguradora/0');
+    navigate('/user/seleccionar-aseguradora/0');
   }
 
   useEffect(() => {( async () => {
@@ -802,7 +802,7 @@ export const Indice = () => {
 
   const editarGarantia = async (idGarantia) => {
     await obtenerLaGarantia(idGarantia);
-    navigate('/seleccionar-aseguradora/'+idGarantia)
+    navigate('/user/seleccionar-aseguradora/'+idGarantia)
   }
 
   const tramitar = async (garantia) => {

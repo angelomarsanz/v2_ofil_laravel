@@ -11,5 +11,5 @@
 #   )
 ARCHIVOS_PHP_PUNTUALES=(
         #"Ninguno"
-        "packages/Reda/Garantias/src/GarantiasServiceProvider.php"
+        "packages/Reda/Garantias/resources/views/garantias/index.blade.php"
 )

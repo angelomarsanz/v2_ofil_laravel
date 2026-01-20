@@ -89,7 +89,7 @@ export const App = () => {
                   <Route path="*" element={<Indice />} />
                   <Route path="/garantias/:origen" element={<Indice />} />
                   <Route index element={<Indice />} />
-                  <Route path="/seleccionar-aseguradora/:idGarantia" element={<SeleccionarAseguradora />} />
+                  <Route path="/user/seleccionar-aseguradora/:idGarantia" element={<SeleccionarAseguradora />} />
                   <Route path="/datos-propiedad/:idGarantia" element={<DatosPropiedad />} />
                   <Route path="/datos-arrendatario/:idPersona" element={<DatosArrendatario />} />
                   <Route path="/personas-adicionales/:idPersona" element={<PersonasAdicionales />} />

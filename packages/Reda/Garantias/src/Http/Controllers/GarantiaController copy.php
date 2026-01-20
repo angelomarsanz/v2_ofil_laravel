@@ -62,7 +62,8 @@ class GarantiaController extends Controller
         // 5. Aplicar filtro de seguridad por rol (Agencia/Agente)
         if ($request->input('usuarioAdministrador') !== 'Sí') {
             if ($request->integer('rolUsuarioConectado') === 2) { // Rol de Agente
-                $query->where('agente_id', $request->integer('agenteId'));
+                // agregar a la consulta donde tipo_agente $request->tipoAgente
+                $query->where('agente_id', $request->integer('agenteId'))->where('tipo_agente', $request->input('tipoAgente'));
             } else { // Rol de Agencia
                 $query->where('agencia_id', $request->integer('agenciaId'));
             }
@@ -72,34 +73,93 @@ class GarantiaController extends Controller
         $garantiasParaFiltros = $query->get();
 
         // 7. Obtener los IDs de agencias y agentes para buscar sus nombres
-        $agenciaIds = $garantiasParaFiltros->pluck('agencia_id')->filter()->unique();
-        $agenteIds = $garantiasParaFiltros->pluck('agente_id')->filter()->unique();
-        $userIds = $agenciaIds->merge($agenteIds)->unique();
+        $agenciaIds = $garantiasParaFiltros->pluck('agencia_id')->filter()->unique()->values();
+        $agenteIds = $garantiasParaFiltros->pluck('agente_id')->filter()->unique()->values();
 
-        // 8. NUEVA LÓGICA: Obtener nombres de la tabla 'users' de Laravel
-        $userNombres = DB::table('users')
-            ->whereIn('id', $userIds)
-            ->select('id', DB::raw("CONCAT(first_name, ' ', last_name) as full_name"))
+        // 8. Nombres de agencias desde tabla `users`
+        $agenciaNombres = DB::table('users')
+            ->whereIn('id', $agenciaIds->all())
+            // Agregar el id del usuario al full_name por ejemplo: Juan Perez (ID: 5)
+            ->select('id', DB::raw("CONCAT(first_name, ' ', last_name, ' (ID: ', id, ')') as full_name"))
             ->get()
             ->keyBy('id')
             ->map(function ($user) {
                 return trim($user->full_name);
             });
 
-        // 9. (Este paso se simplifica con el map anterior)
+        // 9. Para agentes: solo consideramos agentes tipo 'estate_agent' desde `user_agents`
+        $estateAgentIds = [];
+        foreach ($garantiasParaFiltros as $g) {
+            if ($g->agente_id && $g->tipo_agente === 'estate_agent') {
+                $estateAgentIds[] = $g->agente_id;
+            }
+        }
+        $estateAgentIds = collect($estateAgentIds)->unique()->values()->all();
+
+        // Obtener agentes desde user_agents (solo para estate_agent)
+        $userAgentsMap = collect();
+        if (!empty($estateAgentIds)) {
+            $userAgents = DB::table('user_agents')
+                ->leftJoin('user_agent_infos', 'user_agents.id', '=', 'user_agent_infos.agent_id')
+                ->whereIn('user_agents.id', $estateAgentIds)
+                ->select(
+                    'user_agents.id',
+                    'user_agents.user_id',
+                    'user_agents.username',
+                    'user_agents.email',
+                    'user_agent_infos.first_name',
+                    'user_agent_infos.last_name'
+                )
+                ->get()
+                ->keyBy('id');
+            $userAgentsMap = $userAgents;
+        }
+
+        // Construir $userNombres evitando colisiones de IDs entre `users` y `user_agents`.
+        // Usamos claves prefijadas: 'u_{userId}' para agencias y 'a_{agentId}' para agentes.
+        $userNombres = collect();
+        foreach ($agenciaNombres as $id => $nombreAg) {
+            $userNombres->put('u_' . $id, $nombreAg);
+        }
+
+        foreach ($garantiasParaFiltros as $g) {
+            if ($g->agente_id && $g->tipo_agente === 'estate_agent') {
+                $ua = $userAgentsMap->get($g->agente_id);
+                if ($ua && $ua->user_id == $g->agencia_id) {
+                    $fullName = trim(($ua->first_name ?? '') . ' ' . ($ua->last_name ?? ''));
+                    $nombre = $fullName !== '' ? $fullName : ($ua->username ?? $ua->email ?? null);
+                    if ($nombre) {
+                        $nombre = $nombre . ' (ID: ' . $g->agente_id . ')';
+                        $userNombres->put('a_' . $g->agente_id, $nombre);
+                    }
+                }
+            }
+        }
 
         // 10. Construir el mapa de nombres de agencia/agente para cada garantía
         $agenciaAgenteNombres = [];
         foreach ($garantiasParaFiltros as $garantia) {
-            $nombreAgencia = $userNombres->get($garantia->agencia_id);
-            $nombreAgente = $userNombres->get($garantia->agente_id);
-            $nombreCompleto = 'N/A';
+            $nombreAgencia = $agenciaNombres->get($garantia->agencia_id);
+            $nombreAgente = null;
 
+            if ($garantia->agente_id && $garantia->tipo_agente === 'estate_agent') {
+                $ua = $userAgentsMap->get($garantia->agente_id);
+                if ($ua && $ua->user_id == $garantia->agencia_id) {
+                    $fullName = trim(($ua->first_name ?? '') . ' ' . ($ua->last_name ?? ''));
+                    $nombreAgente = $fullName !== '' ? $fullName : ($ua->username ?? $ua->email ?? null);
+                    if ($nombreAgente) {
+                        // Agregar a $nombre el id del agente por ejemplo: Juan Perez (ID: 10)
+                        $nombreAgente = $nombreAgente . ' (ID: ' . $garantia->agente_id . ')';
+                    }
+                }
+            }
+
+            $nombreCompleto = 'N/A';
             if ($nombreAgencia && $nombreAgente && $garantia->agencia_id !== $garantia->agente_id) {
                 $nombreCompleto = $nombreAgencia . ' / ' . $nombreAgente;
-            } else if ($nombreAgencia) {
+            } elseif ($nombreAgencia) {
                 $nombreCompleto = $nombreAgencia;
-            } else if ($nombreAgente) {
+            } elseif ($nombreAgente) {
                 $nombreCompleto = $nombreAgente;
             }
             $agenciaAgenteNombres[$garantia->id] = $nombreCompleto;
@@ -137,7 +197,7 @@ class GarantiaController extends Controller
         // Aplicar filtro de seguridad por rol
         if ($request->input('usuarioAdministrador') !== 'Sí') {
             if ($request->integer('rolUsuarioConectado') === 2) { // Rol de Agente
-                $queryPrincipal->where('agente_id', $request->integer('agenteId'));
+                $queryPrincipal->where('agente_id', $request->integer('agenteId'))->where('tipo_agente', $request->input('tipoAgente'));
             } else { // Rol de Agencia
                 $queryPrincipal->where('agencia_id', $request->integer('agenciaId'));
             }
@@ -180,8 +240,8 @@ class GarantiaController extends Controller
             $solicitante = $garantia->personas->firstWhere('tipo_arrendatario', 'Solicitante');
             $propietario = $garantia->personas->firstWhere('tipo_arrendatario', 'Propietario');
             
-            $nombreAgencia = $userNombres->get($garantia->agencia_id);
-            $nombreAgente = $userNombres->get($garantia->agente_id);
+            $nombreAgencia = $userNombres->get('u_' . $garantia->agencia_id);
+            $nombreAgente = $userNombres->get('a_' . $garantia->agente_id);
             $nombreCompleto = 'N/A';
 
             if ($nombreAgencia && $nombreAgente && $garantia->agencia_id !== $garantia->agente_id) {
