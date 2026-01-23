@@ -30,7 +30,6 @@ Route::domain($domain)->group(function () use ($domain) {
             Route::get('garantias/busqueda-filtros', [GarantiaController::class, 'busquedaGarantias'])->name('reda.garantias.busqueda');
             Route::get('garantias/usuario/verificar', [UsuarioController::class, 'verificarUsuarioConectado'])->name('reda.garantias.usuario.verificar');
             Route::get('garantias/categorias', [CategoriaController::class, 'index'])->name('reda.garantias.categorias.index');
-            Route::get('seleccionar-aseguradora', [GarantiaController::class, 'seleccionarAseguradora'])->name('reda.garantias.seleccionar-aseguradora');
         });
     });
 });
@@ -44,7 +43,6 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth:web', 'userstatus', 'Te
     Route::get('garantias/busqueda-filtros', [GarantiaController::class, 'busquedaGarantias'])->name('reda.garantias.busqueda');
     Route::get('garantias/usuario/verificar', [UsuarioController::class, 'verificarUsuarioConectado'])->name('reda.garantias.usuario.verificar');
     Route::get('garantias/categorias', [CategoriaController::class, 'index'])->name('reda.garantias.categorias.usuario.index');
-    Route::get('seleccionar-aseguradora/$idGarantia', [GarantiaController::class, 'seleccionarAseguradora'])->name('reda.garantias.usuario.seleccionar-aseguradora');
 
 });
 
@@ -67,7 +65,6 @@ Route::group([
             Route::get('garantias/busqueda-filtros', [GarantiaController::class, 'busquedaGarantias'])->name('reda.garantias.agent.busqueda');
             Route::get('garantias/usuario/verificar', [UsuarioController::class, 'verificarUsuarioConectado'])->name('reda.garantias.agent.usuario.verificar');
             Route::get('garantias/categorias', [CategoriaController::class, 'index'])->name('reda.garantias.categorias.agent.index');
-            Route::get('seleccionar-aseguradora', [GarantiaController::class, 'seleccionarAseguradora'])->name('reda.garantias.agent.seleccionar-aseguradora');
         });
     });
 });

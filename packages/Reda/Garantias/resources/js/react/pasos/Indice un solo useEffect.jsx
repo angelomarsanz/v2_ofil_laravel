@@ -230,68 +230,63 @@ export const Indice = () => {
     navigate(inicioRuta.current+'seleccionar-aseguradora/0');
   }
 
-  // 1. EFECTO DE CONFIGURACIÓN DE RUTA Y ROL
-  useEffect(() => {
-    const configurarAcceso = async () => {
-      const pathname = window.location.pathname;
-      const slug = pathname.split('/').filter(Boolean);
-
-      if (slug.length >= 2) {
-        if (slug[0] === 'admin' && slug[1] === 'garantias') {
-          inicioRuta.current = `/admin/`; 
-          usuarioAdministrador.current = 'Sí';
-          agenciaId.current = 0;
-          agenteId.current = 0;
-          rolUsuarioConectado.current = 0;
-        } else if (slug[0] === 'user' && slug[1] === 'garantias') {
-          inicioRuta.current = `/user/`;
-          usuarioAdministrador.current = 'No';
-        } else if (slug[0] !== 'admin' && slug[0] !== 'user' && slug[1] === 'agent') {
-          inicioRuta.current = `/${slug[0]}/agent/`;
-          usuarioAdministrador.current = 'No';
-        } else {
-          // Si no es ninguna de las rutas de entrada permitidas al Indice
-          console.log('Ruta de acceso no válida al Indice');
-          modalBasicoAccesoNoValido();
-          return;
-        }
-        
-        // Si llegamos aquí, la ruta es válida. 
-        // Si el estado está sucio de una navegación previa, lo limpiamos
-        if (state.aseguradora !== '') {
-          setState(datosInicio);
-        }
-      } else {
-        console.log('slug.length < 2');
+  useEffect(() => {( async () => {
+    const pathname = window.location.pathname;
+    const slug = pathname.split('/').filter(Boolean);
+    if (slug.length >= 2)
+    {
+      if (slug[0] === 'admin' && slug[1] === 'garantias') {
+        inicioRuta.current = `/admin/`;
+        usuarioAdministrador.current = 'Sí';
+        agenciaId.current = 0;
+        agenteId.current = 0;
+        rolUsuarioConectado.current = 0;
+      }
+      else if (slug[0] === 'user' && slug[1] === 'garantias') {
+        inicioRuta.current = `/user/`;
+        usuarioAdministrador.current = 'No';
+      }
+      else if (slug[0] !== 'admin' && slug[0] !== 'user' && slug[1] === 'agent') {
+        inicioRuta.current = `/${slug[0]}/agent/`;
+        usuarioAdministrador.current = 'No';
+      }
+      else {
+        // Crear y mostrar un modal de peligro indicando que la ruta no es válida, después que el usuario cierre el modal redirigir a la url base "/"
+        console.log('Los primeros dos slugs no coinciden con alguno de estos tres: admin/garantias o user/garantias o nombreAgencia/agent/garantias');
         modalBasicoAccesoNoValido();
         return;
       }
-    };
+    }
+    else {
+        console.log('slug.length < 2');
+        modalBasicoAccesoNoValido();
+        return;
+    }  
 
-    configurarAcceso();
-  }, []); // IMPORTANTE: Array vacío para que solo corra al cargar la App por primera vez
-
-  // 2. EFECTO DE CARGA DE DATOS
-  useEffect(() => {
-    const cargarDatos = async () => {
-      // Evitamos cargar datos si no se ha definido el inicioRuta aún
-      if (!inicioRuta.current) return;
-
-      if (state.ambiente === 'Producción' && usuarioAdministrador.current === 'No') {
-        verificarUsuarioConectado();
-      } else {
-        if (state.login_desarrollo === true) {
-          await obtenerTokenDesarrollo();
-        } else {
-          tokenLaravel.current = state.token_laravel;
-          await obtenerGarantias(currentPage, perPage, origen ? origen : 99);
-        }
-        window.scrollTo(0, 0);
+    if (state.aseguradora !== '')
+    {
+      setState(datosInicio);
+    }
+    if (state.ambiente === 'Producción' && usuarioAdministrador.current === 'No')
+    {
+      verificarUsuarioConectado();
+    }
+    else
+    {
+      console.log('Indice, desarrollo');
+      if (state.login_desarrollo === true)
+      {
+        await obtenerTokenDesarrollo();
       }
-    };
+      else
+      {
+        tokenLaravel.current = state.token_laravel;
+        await obtenerGarantias(currentPage, perPage, origen ? origen : 99);
+      }
+      setInicioPantalla(window.scrollTo(0,0));
+    }
+  })();},[currentPage, perPage, origen, state.ambiente, state.login_desarrollo, state.token_laravel, filtrosSeleccionados]);
 
-    cargarDatos();
-  }, [currentPage, perPage, origen, state.ambiente, state.login_desarrollo, state.token_laravel, filtrosSeleccionados]);
 
   const obtenerTokenDesarrollo = async () => {
     let email = state.email_desarrollo;

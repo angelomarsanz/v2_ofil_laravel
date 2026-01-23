@@ -183,7 +183,7 @@ export const SeleccionarAseguradora = () => {
                 respuesta.data.personas[i].sueldo = '';
             }
             setState({ ...guardarDatos, ...respuesta.data.personas[0], personas : respuesta.data.personas });
-            navigate("/datos-propiedad/"+respuesta.data.id);
+            navigate(state.inicio_ruta+"datos-propiedad/"+respuesta.data.id);
           }
           else
           {
@@ -214,7 +214,7 @@ export const SeleccionarAseguradora = () => {
           if (respuesta.data.codigoRetorno == 0)
           {
             setState({ ...state, aseguradora : aseguradora.nombre, cantidad_personas_adicionales : cantidadPersonasAdicionales, estatus_garantia : 'Paso 1, Borrador' });
-            navigate("/datos-propiedad/"+idGarantia);
+            navigate(state.inicio_ruta+"datos-propiedad/"+idGarantia);
           }
           else
           {
@@ -315,7 +315,7 @@ export const SeleccionarAseguradora = () => {
           <Form onSubmit={handleSubmit(saveData)}>
             <div className='botones_navegacion_fijos'>
               <div className='ra_nav_anterior'>
-                <Fab variant="extended" color="secondary" sx={{ fontSize : 12, borderRadius : 1}} onClick={() => {setState(datosInicio); navigate('/garantias')}} >
+                <Fab variant="extended" color="secondary" sx={{ fontSize : 12, borderRadius : 1}} onClick={() => {setState(datosInicio); navigate(state.inicio_ruta+'garantias')}} >
                   <KeyboardArrowLeftIcon />
                   Anterior
                 </Fab>
@@ -337,7 +337,7 @@ export const SeleccionarAseguradora = () => {
               className='ra_ocultar'
             >
               <div>
-                <Fab variant="extended" color="secondary" sx={{ fontSize : 12, borderRadius : 1}}  onClick={() => {setState(datosInicio); navigate('/garantias')}} >
+                <Fab variant="extended" color="secondary" sx={{ fontSize : 12, borderRadius : 1}}  onClick={() => {setState(datosInicio); navigate(state.inicio_ruta+'garantias')}} >
                   <KeyboardArrowLeftIcon />
                   Anterior
                 </Fab>

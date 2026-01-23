@@ -86,20 +86,66 @@ export const App = () => {
             <AppProvider>
               <Router>
                 <Routes>
-                  <Route path="*" element={<Indice />} />
-                  <Route path="/garantias/:origen" element={<Indice />} />
                   <Route index element={<Indice />} />
-                  <Route path="/user/seleccionar-aseguradora/:idGarantia" element={<SeleccionarAseguradora />} />
-                  <Route path="/datos-propiedad/:idGarantia" element={<DatosPropiedad />} />
-                  <Route path="/datos-arrendatario/:idPersona" element={<DatosArrendatario />} />
-                  <Route path="/personas-adicionales/:idPersona" element={<PersonasAdicionales />} />
-                  <Route path="/detalle-garantia/:idGarantia" element={<DetalleGarantia />} />
-                  <Route path="/garantia-enviada/:idGarantia" element={<GarantiaEnviada />} />
-                  <Route path="/revision-garantia/:idGarantia" element={<RevisionGarantia />} />
-                  <Route path="/contrato-garantia/:idGarantia" element={<ContratoGarantia />} />
-                  <Route path="/inventario-garantia/:idGarantia" element={<InventarioGarantia />} />
-                  <Route path="/firma-contrato/:idGarantia" element={<FirmaContrato />} />
-                  <Route path="/pago-garantia/:idGarantia" element={<PagoGarantia />} />
+                  <Route path="/garantias/:origen" element={<Indice />} />
+
+                  <Route path="/:segmento/garantias">
+                    {/* Renderiza el Indice si la URL es exactamente el prefijo */}
+                    <Route index element={<Indice />} />
+                    
+                    {/* Rutas internas que ahora heredan el prefijo automáticamente */}
+                    <Route path="seleccionar-aseguradora/:idGarantia" element={<SeleccionarAseguradora />} />
+                    <Route path="datos-propiedad/:idGarantia" element={<DatosPropiedad />} />
+                    <Route path="datos-arrendatario/:idPersona" element={<DatosArrendatario />} />
+                    <Route path="personas-adicionales/:idPersona" element={<PersonasAdicionales />} />
+                    <Route path="detalle-garantia/:idGarantia" element={<DetalleGarantia />} />
+                    <Route path="garantia-enviada/:idGarantia" element={<GarantiaEnviada />} />
+                    <Route path="revision-garantia/:idGarantia" element={<RevisionGarantia />} />
+                    <Route path="contrato-garantia/:idGarantia" element={<ContratoGarantia />} />
+                    <Route path="inventario-garantia/:idGarantia" element={<InventarioGarantia />} />
+                    <Route path="firma-contrato/:idGarantia" element={<FirmaContrato />} />
+                    <Route path="pago-garantia/:idGarantia" element={<PagoGarantia />} />
+                  </Route>
+
+                  <Route path="/:segmento/agent">
+                    {/* Renderiza el Indice si la URL es exactamente el prefijo */}
+                    <Route index element={<Indice />} />
+                    
+                    {/* Rutas internas que ahora heredan el prefijo automáticamente */}
+                    <Route path="seleccionar-aseguradora/:idGarantia" element={<SeleccionarAseguradora />} />
+                    <Route path="datos-propiedad/:idGarantia" element={<DatosPropiedad />} />
+                    <Route path="datos-arrendatario/:idPersona" element={<DatosArrendatario />} />
+                    <Route path="personas-adicionales/:idPersona" element={<PersonasAdicionales />} />
+                    <Route path="detalle-garantia/:idGarantia" element={<DetalleGarantia />} />
+                    <Route path="garantia-enviada/:idGarantia" element={<GarantiaEnviada />} />
+                    <Route path="revision-garantia/:idGarantia" element={<RevisionGarantia />} />
+                    <Route path="contrato-garantia/:idGarantia" element={<ContratoGarantia />} />
+                    <Route path="inventario-garantia/:idGarantia" element={<InventarioGarantia />} />
+                    <Route path="firma-contrato/:idGarantia" element={<FirmaContrato />} />
+                    <Route path="pago-garantia/:idGarantia" element={<PagoGarantia />} />
+                  </Route>
+
+
+                  <Route path="/:segmento/:subsegmento">
+                    {/* Renderiza el Indice si la URL es exactamente el prefijo */}
+                    <Route index element={<Indice />} />
+                    
+                    {/* Rutas internas que ahora heredan el prefijo automáticamente */}
+                    <Route path="seleccionar-aseguradora/:idGarantia" element={<SeleccionarAseguradora />} />
+                    <Route path="datos-propiedad/:idGarantia" element={<DatosPropiedad />} />
+                    <Route path="datos-arrendatario/:idPersona" element={<DatosArrendatario />} />
+                    <Route path="personas-adicionales/:idPersona" element={<PersonasAdicionales />} />
+                    <Route path="detalle-garantia/:idGarantia" element={<DetalleGarantia />} />
+                    <Route path="garantia-enviada/:idGarantia" element={<GarantiaEnviada />} />
+                    <Route path="revision-garantia/:idGarantia" element={<RevisionGarantia />} />
+                    <Route path="contrato-garantia/:idGarantia" element={<ContratoGarantia />} />
+                    <Route path="inventario-garantia/:idGarantia" element={<InventarioGarantia />} />
+                    <Route path="firma-contrato/:idGarantia" element={<FirmaContrato />} />
+                    <Route path="pago-garantia/:idGarantia" element={<PagoGarantia />} />
+                  </Route>
+
+                  {/* 4. COMODÍN: Cualquier otra ruta no definida vuelve al Indice */}
+                  <Route path="*" element={<Indice />} />
                 </Routes>
               </Router>
             </AppProvider>

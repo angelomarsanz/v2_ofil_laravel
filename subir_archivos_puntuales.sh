@@ -11,5 +11,8 @@
 #   )
 ARCHIVOS_PHP_PUNTUALES=(
         #"Ninguno"
-        "packages/Reda/Garantias/resources/views/garantias/index.blade.php"
+        "packages/Reda/Garantias/resources/js/react/App.jsx"
+        "packages/Reda/Garantias/resources/js/react/pasos/Indice.jsx"
+        #"packages/Reda/Garantias/resources/js/react/pasos/SeleccionarAseguradora.jsx"
+        #"packages/Reda/Garantias/routes/web.php"
 )
