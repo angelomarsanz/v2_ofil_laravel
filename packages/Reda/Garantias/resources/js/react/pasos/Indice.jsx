@@ -237,18 +237,18 @@ export const Indice = () => {
       const slug = pathname.split('/').filter(Boolean);
 
       if (slug.length >= 2) {
-        if (slug[0] === 'admin' && slug[1] === 'garantias') {
+        if (slug[0] !== 'admin' && slug[0] !== 'user' && slug[1] === 'agent') {
+          inicioRuta.current = `/${slug[0]}/agent/`;
+          usuarioAdministrador.current = 'No';
+        } else if (slug[0] === 'user' && slug[1] === 'garantias') {
+          inicioRuta.current = `/user/`;
+          usuarioAdministrador.current = 'No';
+        } else if (slug[0] === 'admin' && slug[1] === 'garantias') {
           inicioRuta.current = `/admin/`; 
           usuarioAdministrador.current = 'Sí';
           agenciaId.current = 0;
           agenteId.current = 0;
           rolUsuarioConectado.current = 0;
-        } else if (slug[0] === 'user' && slug[1] === 'garantias') {
-          inicioRuta.current = `/user/`;
-          usuarioAdministrador.current = 'No';
-        } else if (slug[0] !== 'admin' && slug[0] !== 'user' && slug[1] === 'agent') {
-          inicioRuta.current = `/${slug[0]}/agent/`;
-          usuarioAdministrador.current = 'No';
         } else {
           // Si no es ninguna de las rutas de entrada permitidas al Indice
           console.log('Ruta de acceso no válida al Indice');
