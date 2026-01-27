@@ -78,7 +78,6 @@ class GarantiaController extends Controller
 
         // 7. Obtener los IDs de agencias y agentes para buscar sus nombres
         $agenciaIds = $garantiasParaFiltros->pluck('agencia_id')->filter()->unique()->values();
-        $agenteIds = $garantiasParaFiltros->pluck('agente_id')->filter()->unique()->values();
 
         // 8. Nombres de agencias desde tabla `users`
         $agenciaNombres = DB::table('users')

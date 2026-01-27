@@ -217,6 +217,13 @@ export const Indice = () => {
 
   // Declaración de la función `nuevaGarantia`
   const nuevaGarantia = async () => {
+    if (usuarioAdministrador.current === 'Sí') {
+      setTituloModalBasico(t("Acción no permitida"));
+      setContenidoModalBasico(t("Los usuarios Administradores no deben crear nuevas garantías, solo editarlas"));
+      accionModalBasico.current = () => setModalBasico(false);
+      setModalBasico(true);
+      return; // Detenemos la ejecución aquí
+    }
     await setState({
       ...state,
       inicio_ruta : inicioRuta.current,
