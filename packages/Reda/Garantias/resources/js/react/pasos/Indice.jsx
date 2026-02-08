@@ -210,7 +210,6 @@ export const Indice = () => {
   const agenteId = useRef(2);
   const rolUsuarioConectado = useRef(3);
   const tipoAgenciaAgente = useRef('estate_agent');
-  const tokenLaravel = useRef('');
   const urlAlmacenamiento = useRef('http://localhost/ofiliaria/backend_ofiliaria/public/storage/');
 
   const filtroBtnRef = useRef(null);
@@ -274,7 +273,7 @@ export const Indice = () => {
         return;
       }
     };
-
+    console.log('Compiló perfectamente en el servidor Vesta');
     configurarAcceso();
   }, []); // IMPORTANTE: Array vacío para que solo corra al cargar la App por primera vez
 
@@ -284,61 +283,17 @@ export const Indice = () => {
       // Evitamos cargar datos si no se ha definido el inicioRuta aún
       if (!inicioRuta.current) return;
 
-      if (state.ambiente === 'Producción' && usuarioAdministrador.current === 'No') {
+      if (usuarioAdministrador.current === 'No') {
         verificarUsuarioConectado();
-      } else {
-        if (state.login_desarrollo === true) {
-          await obtenerTokenDesarrollo();
-        } else {
-          tokenLaravel.current = state.token_laravel;
-          await obtenerGarantias(currentPage, perPage, origen ? origen : 99);
-        }
+      }   
+      else {
+        await obtenerGarantias(currentPage, perPage, origen ? origen : 99);
         window.scrollTo(0, 0);
       }
     };
 
     cargarDatos();
-  }, [currentPage, perPage, origen, state.ambiente, state.login_desarrollo, state.token_laravel, filtrosSeleccionados]);
-
-  const obtenerTokenDesarrollo = async () => {
-    let email = state.email_desarrollo;
-    let password = state.password_desarrollo;
-    try {
-      setGifEspere(<GifEspere />);
-      const respuesta = await axios.post(state.endpoint+'/login', {},
-        {
-          auth: {
-            username: email,
-            password: password
-          }
-        }
-      );
-      setGifEspere('');
-      if (respuesta.data.codigo_respuesta === 0)
-      {
-        tokenLaravel.current = respuesta.data.token;
-        await obtenerGarantias(currentPage, perPage, origen ? origen : 99);
-        setAlertaFija(<AlertaSatisfactorio texto={t('texto_153')} />);
-        setTimeout(() => {
-          setAlertaFija('');
-        }, 10000);
-      }
-      else
-      {
-        setAlertaFija(<AlertaError texto={t('texto_154')} />);
-        setTimeout(() => {
-          setAlertaFija('');
-        }, 10000);
-      }
-    } catch (error) {
-      setGifEspere('');
-      setAlertaFija(<AlertaError texto={t('texto_155')} />);
-      setTimeout(() => {
-        setAlertaFija('');
-      }, 10000);
-      console.error('Error en el servidor al obtener token:', error);
-    }
-  }
+  }, [currentPage, perPage, origen, state.ambiente, filtrosSeleccionados]);
 
   const verificarUsuarioConectado = async () => {
     try {
@@ -352,7 +307,6 @@ export const Indice = () => {
         agenteId.current = respuesta.data.id_usuario_conectado;
         rolUsuarioConectado.current = respuesta.data.rol_usuario_conectado;
         tipoAgenciaAgente.current = respuesta.data.tipo_agencia_agente;
-        tokenLaravel.current = respuesta.data.token_laravel;
         console.log('verificarUsuarioConectado, respuesta.data', respuesta.data);
 
         if (agenteId.current < 1 || rolUsuarioConectado.current < 2)
@@ -477,13 +431,13 @@ export const Indice = () => {
     // El useEffect se encargará de volver a llamar a obtenerGarantias
   };
 
-
   const obtenerLaGarantia = async (idGarantia) => {
     setGifEspere(<GifEspere />);
     try {
       const respuesta = await axios.get(state.endpoint+'/garantias/show/'+idGarantia, {
         headers: {
-          'Authorization': `Bearer ${tokenLaravel.current}`
+          "Content-Type": "application/json", 
+          "Accept": "application/json"
         }
       });
       setGifEspere('');
@@ -675,7 +629,7 @@ export const Indice = () => {
   const eliminarGarantia = async (id) => {
     setGifEspere(<GifEspere />);
     try {
-      const respuesta = await axios.post(state.endpoint+'/garantias/destroy/'+id, {}, { headers: { 'Authorization': `Bearer ${tokenLaravel.current}`, "Content-Type": "application/json", "Accept" :  "application/json"} });
+      const respuesta = await axios.post(state.endpoint+'/garantias/destroy/'+id, {}, { headers: { "Content-Type": "application/json", "Accept" :  "application/json"} });
 
       setGifEspere('');
       if (respuesta.data.codigoRetorno === 0)

@@ -324,6 +324,7 @@ class GarantiaController extends Controller
             [
                 'agencia_id' => $request->agencia_id,
                 'agente_id' => $request->agente_id,
+                'tipo_agente' => $request->tipo_agencia_agente,
                 'aseguradora' => $request->aseguradora,
                 'propiedad_id' => $request->propiedad_id,
                 'numero_identidad_propiedad' => $request->numero_identidad_propiedad,
