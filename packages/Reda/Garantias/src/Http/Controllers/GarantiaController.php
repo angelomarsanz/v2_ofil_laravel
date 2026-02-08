@@ -20,7 +20,6 @@ class GarantiaController extends Controller
 {
     public function index()
     {
-        $prueba = "";
         return view('garantias::garantias.index');
     }
     public function seleccionarAseguradora()
