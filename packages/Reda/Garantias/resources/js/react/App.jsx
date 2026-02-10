@@ -1,5 +1,6 @@
 import React, { StrictMode } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import ReloadGuard from './varios/ReloadGuard';
 import { AppProvider } from "./state.jsx";
 import { Suspense } from 'react';
 import { Indice } from "./pasos/Indice.jsx";
@@ -20,6 +21,69 @@ import { createTheme, ThemeProvider, responsiveFontSizes } from '@mui/material/s
 import {
   Container
 } from '@mui/material';
+
+// 1. DEFINICIÓN DE LA FUNCIÓN GENERADORA
+const generateRoleRoutes = (baseConfig) => {
+  const roles = [
+    { prefix: 'user' },
+    { prefix: 'admin' },
+    { prefix: ':agencia/agent' }
+  ];
+
+  const finalRoutes = [];
+  baseConfig.forEach(route => {
+    roles.forEach(role => {
+      // Añadimos un asterisco opcional al final para que React Router 
+      // siempre capture la ruta incluso si hay variaciones por el refresco
+      const pathWithSplat = `/${role.prefix}${route.path}/*`; 
+      
+      finalRoutes.push({
+        path: pathWithSplat,
+        component: route.component,
+        protected: route.protected
+      });
+    });
+  });
+  return finalRoutes;
+};
+
+// 2. DEFINICIÓN DE LOS PASOS (Configuración única)
+const processSteps = [
+  { path: "/garantias", component: <Indice />, protected: false },
+  { path: "/seleccionar-aseguradora/:idGarantia", component: <SeleccionarAseguradora />, protected: true },
+  { path: "/datos-propiedad/:idGarantia", component: <DatosPropiedad />, protected: true },
+  { path: "/datos-arrendatario/:idPersona", component: <DatosArrendatario />, protected: true },
+  { path: "/personas-adicionales/:idPersona", component: <PersonasAdicionales />, protected: true },
+  { path: "/detalle-garantia/:idGarantia", component: <DetalleGarantia />, protected: true },
+  { path: "/garantia-enviada/:idGarantia", component: <GarantiaEnviada />, protected: true },
+  { path: "/revision-garantia/:idGarantia", component: <RevisionGarantia />, protected: true },
+  { path: "/contrato-garantia/:idGarantia", component: <ContratoGarantia />, protected: true },
+  { path: "/inventario-garantia/:idGarantia", component: <InventarioGarantia />, protected: true },
+  { path: "/firma-contrato/:idGarantia", component: <FirmaContrato />, protected: true },
+  { path: "/pago-garantia/:idGarantia", component: <PagoGarantia />, protected: true },
+];
+
+// 3. GENERACIÓN DE LA LISTA FINAL
+const allRoutes = generateRoleRoutes(processSteps);
+
+const RoleRedirect = () => {
+  const location = useLocation();
+  const segments = location.pathname.split('/').filter(Boolean);
+  
+  let destino = "/user/garantias";
+
+  // Lógica de detección por segmentos de URL
+  if (segments.includes('admin')) {
+    destino = "/admin/garantias";
+  } else if (segments.includes('agent')) {
+    // Si la URL es /agencia/agent/... el primer segmento es la agencia
+    const idx = segments.indexOf('agent');
+    const agencia = segments[idx - 1] || 'default';
+    destino = `/${agencia}/agent/garantias`;
+  }
+
+  return <Navigate to={destino} replace />;
+};
 
 export const App = () => {
   const vectorColores = colores();
@@ -86,58 +150,22 @@ export const App = () => {
             <AppProvider>
               <Router>
                 <Routes>
-                  {/* Rutas base para el listado */}
-                  <Route path="/user/garantias" element={<Indice />} />
-                  <Route path="/admin/garantias" element={<Indice />} />
-                  <Route path="/:agencia/agent/garantias" element={<Indice />} />
-
-                  {/* Rutas para el proceso de nueva garantía (DEBEN TENER SU PROPIO COMPONENTE) */}
-                  <Route path="/user/seleccionar-aseguradora/:idGarantia" element={<SeleccionarAseguradora />} />
-                  <Route path="/admin/seleccionar-aseguradora/:idGarantia" element={<SeleccionarAseguradora />} />
-                  <Route path="/:agencia/agent/seleccionar-aseguradora/:idGarantia" element={<SeleccionarAseguradora />} />
-
-                  <Route path="/user/datos-propiedad/:idGarantia" element={<DatosPropiedad />} />
-                  <Route path="/admin/datos-propiedad/:idGarantia" element={<DatosPropiedad />} />
-                  <Route path="/:agencia/agent/datos-propiedad/:idGarantia" element={<DatosPropiedad />} />
-
-                  <Route path="/user/datos-arrendatario/:idPersona" element={<DatosArrendatario />} />
-                  <Route path="/admin/datos-arrendatario/:idPersona" element={<DatosArrendatario />} />
-                  <Route path="/:agencia/agent/datos-arrendatario/:idPersona" element={<DatosArrendatario />} />
-
-                  <Route path="/user/personas-adicionales/:idPersona" element={<PersonasAdicionales />} />
-                  <Route path="/admin/personas-adicionales/:idPersona" element={<PersonasAdicionales />} />
-                  <Route path="/:agencia/agent/personas-adicionales/:idPersona" element={<PersonasAdicionales />} />
-
-                  <Route path="/user/detalle-garantia/:idGarantia" element={<DetalleGarantia />} />
-                  <Route path="/admin/detalle-garantia/:idGarantia" element={<DetalleGarantia />} />
-                  <Route path="/:agencia/agent/detalle-garantia/:idGarantia" element={<DetalleGarantia />} />
-
-                  <Route path="/user/garantia-enviada/:idGarantia" element={<GarantiaEnviada />} />
-                  <Route path="/admin/garantia-enviada/:idGarantia" element={<GarantiaEnviada />} />
-                  <Route path="/:agencia/agent/garantia-enviada/:idGarantia" element={<GarantiaEnviada />} />
-
-                  <Route path="/user/revision-garantia/:idGarantia" element={<RevisionGarantia />} />
-                  <Route path="/admin/revision-garantia/:idGarantia" element={<RevisionGarantia />} />
-                  <Route path="/:agencia/agent/revision-garantia/:idGarantia" element={<RevisionGarantia />} />
-
-                  <Route path="/user/contrato-garantia/:idGarantia" element={<ContratoGarantia />} />
-                  <Route path="/admin/contrato-garantia/:idGarantia" element={<ContratoGarantia />} />
-                  <Route path="/:agencia/agent/contrato-garantia/:idGarantia" element={<ContratoGarantia />} />
-
-                  <Route path="/user/inventario-garantia/:idGarantia" element={<InventarioGarantia />} />
-                  <Route path="/admin/inventario-garantia/:idGarantia" element={<InventarioGarantia />} />
-                  <Route path="/:agencia/agent/inventario-garantia/:idGarantia" element={<InventarioGarantia />} />
-
-                  <Route path="/user/firma-contrato/:idGarantia" element={<FirmaContrato />} />
-                  <Route path="/admin/firma-contrato/:idGarantia" element={<FirmaContrato />} />
-                  <Route path="/:agencia/agent/firma-contrato/:idGarantia" element={<FirmaContrato />} />
-
-                  <Route path="/user/pago-garantia/:idGarantia" element={<PagoGarantia />} />
-                  <Route path="/admin/pago-garantia/:idGarantia" element={<PagoGarantia />} />
-                  <Route path="/:agencia/agent/pago-garantia/:idGarantia" element={<PagoGarantia />} />
-
-                  {/* El comodín debe ir AL FINAL */}
-                  <Route path="*" element={<Indice />} />
+                  {allRoutes.map((route, index) => (
+                    <Route
+                      key={index}
+                      path={route.path}
+                      element={
+                        route.protected ? (
+                          <ReloadGuard>{route.component}</ReloadGuard>
+                        ) : (
+                          route.component
+                        )
+                      }
+                    />
+                  ))}
+                  
+                  {/* Comodín al final */}
+                  <Route path="*" element={<RoleRedirect />} />
                 </Routes>
               </Router>
             </AppProvider>

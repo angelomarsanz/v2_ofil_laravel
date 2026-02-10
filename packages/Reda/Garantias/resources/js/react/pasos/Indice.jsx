@@ -223,7 +223,7 @@ export const Indice = () => {
       setModalBasico(true);
       return; // Detenemos la ejecución aquí
     }
-    await setState({
+    setState({
       ...state,
       inicio_ruta : inicioRuta.current,
       usuario_administrador : usuarioAdministrador.current,
@@ -585,7 +585,7 @@ export const Indice = () => {
         let personasPreparadas = prepararCamposPersonas(respuesta.data.personas);
         respuesta.data.personas = personasPreparadas;
 
-        await setState({
+        setState({
           ...state,
           ...respuesta.data.garantia,
           propiedad_registrada : propiedadRegistrada,

@@ -22,10 +22,7 @@ class GarantiaController extends Controller
     {
         return view('garantias::garantias.index');
     }
-    public function seleccionarAseguradora()
-    {
-        return view('garantias::garantias.seleccionar_aseguradora');
-    }
+
     /**
      * Display a listing of the resource.
      */

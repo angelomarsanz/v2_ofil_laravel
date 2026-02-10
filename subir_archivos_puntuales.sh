@@ -11,5 +11,7 @@
 #   )
 ARCHIVOS_PHP_PUNTUALES=(
         #"Ninguno"
-        "packages/Reda/Garantias/resources/js/react/pasos/Indice.jsx"
+        "packages/Reda/Garantias/resources/js/react/varios/ReloadGuard.js"
+        "/home/user/v2_ofil_laravel/packages/Reda/Garantias/resources/js/react/App.jsx"
+        "packages/Reda/Garantias/routes/web.php"
 )
