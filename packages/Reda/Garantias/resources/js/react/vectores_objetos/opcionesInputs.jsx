@@ -292,12 +292,12 @@ export const opcionesInputs = () => {
     opcionesInputs['aprobacion_garantia'] = 
     [
         {
-            valor: t('texto_113'),
-            etiqueta: t('texto_113')
+            valor: t("Sí"),
+            etiqueta: t("Sí")
         },
         {
-            valor: t('texto_114'),
-            etiqueta: t('texto_114')
+            valor: t("No"),
+            etiqueta: t("No")
         }
     ];
 

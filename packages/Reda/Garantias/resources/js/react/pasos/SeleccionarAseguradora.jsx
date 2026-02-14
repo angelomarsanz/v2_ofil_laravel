@@ -10,7 +10,7 @@ import InformacionPorto from "../informacion_aseguradoras/porto/InformacionPorto
 import InformacionSancor from "../informacion_aseguradoras/sancor/InformacionSancor.jsx";
 import InformacionMapfre from "../informacion_aseguradoras/mapfre/InformacionMapfre.jsx";
 import InformacionSbi from "../informacion_aseguradoras/sbi/InformacionSbi.jsx";
-import { datosInicio, datosPruebas, opcionesAseguradoras, textosMensajes } from "../vectores_objetos";
+import { datosInicio, opcionesAseguradoras, textosMensajes } from "../vectores_objetos";
 import { GifEspere, AlertPelSC, AlertPelFij } from "../varios";
 import { useTranslation } from 'react-i18next';
 import { TarjetaPrimaria } from '../mui/index.js';
@@ -43,7 +43,6 @@ export const SeleccionarAseguradora = () => {
   const [state, setState] = useAppState();
   const { idGarantia } = useParams();
   const [ aseguradora, setAseguradora ] = useState({nombre : "Sura",  componente: <InformacionSura />, claseComponente: "boton_sura"});
-  const datosDePruebas = useRef('');
   const [inicioPantalla, setInicioPantalla] = useState('');
   const [gifEspere, setGifEspere] = useState('');
   const [AlertaFija, setAlertaFija] = useState(''); 
@@ -59,14 +58,7 @@ export const SeleccionarAseguradora = () => {
   // const { scrollDir, scrollPosition } = useDetectScroll();
  
   useEffect(() => {( async () => {
-      if (idGarantia == 0 && state.pruebas == 'Sí')
-      { 
-        datosPruebas(datosDePruebas);
-      }
-      else
-      {
-        aseguradoraSeleccionada(state.aseguradora);
-      }
+      aseguradoraSeleccionada(state.aseguradora);
       setInicioPantalla(window.scrollTo(0,0));
     })();},[]);
 
@@ -149,20 +141,12 @@ export const SeleccionarAseguradora = () => {
       let cantidadPersonasAdicionales = vectorOpcionesAseguradoras[aseguradora.nombre+' Cantidad personas adicionales'];
       if (idGarantia == 0)
       {
-        if (state.pruebas == 'Sí')
-        {
-          guardarDatos = { ...state, ...datosDePruebas.current, aseguradora : aseguradora.nombre, cantidad_personas_adicionales : cantidadPersonasAdicionales, estatus_garantia : 'Paso 1, Borrador'};
-        }
-        else
-        {
-          guardarDatos = { ...state, aseguradora : aseguradora.nombre, cantidad_personas_adicionales : cantidadPersonasAdicionales, estatus_garantia : 'Paso 1, Borrador' };
-        }
+        guardarDatos = { ...state, aseguradora : aseguradora.nombre, cantidad_personas_adicionales : cantidadPersonasAdicionales, estatus_garantia : 'Paso 1, Borrador' };
+        
         console.log('SeleccionarAseguradora, guardarDatos', guardarDatos);
         try {
-          const respuesta = await axios.post(state.endpoint+'/garantias/store', guardarDatos, {
-            headers: {
-              'Authorization': `Bearer ${state.token_laravel}`
-            }
+          const respuesta = await axios.post(state.inicio_ruta+'garantias/store', guardarDatos, {
+            headers: { "Content-Type": "application/json", "Accept" :  "application/json"}
           });
           setGifEspere('');
           if (respuesta.data.codigoRetorno == 0)
@@ -209,7 +193,7 @@ export const SeleccionarAseguradora = () => {
         const formulario = new FormData();
         formulario.append("datos", JSON.stringify(guardarDatos));
         try {
-          const respuesta = await axios.post(state.endpoint+'/garantias/update/'+idGarantia, formulario, { headers: { 'Authorization': `Bearer ${state.token_laravel}`, "Content-Type": "multipart/form-data" } });
+          const respuesta = await axios.post(state.inicio_ruta+'garantias/update/'+idGarantia, formulario, { headers: { "Content-Type": "multipart/form-data" } });
           setGifEspere('');
           if (respuesta.data.codigoRetorno == 0)
           {

@@ -12,7 +12,7 @@ export const datosInicio = {
     agencia_id : 0,
     agente_id : 0,
     rol_usuario_conectado : 0,
-    tipo_agencia_agente : 'estate_agent',
+    tipo_agencia_agente : 'estate_agency',
     token_laravel : '', // Eliminar cuando se termine la migración
     garantia_id : 0,
     aseguradora : '',

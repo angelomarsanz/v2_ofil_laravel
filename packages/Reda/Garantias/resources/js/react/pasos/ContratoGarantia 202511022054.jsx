@@ -965,10 +965,10 @@ export const ContratoGarantia = () => {
       accionModalDialogoBasico.current = cerrarModalDialogoBasico;
       setTituloModalDialogoBasico(t('texto_280'));
       setContenidoModalDialogoBasico(t('texto_281', {propietario : propietario}));
-      setTextoAccion1DialogoBasico(t('texto_113'));
+      setTextoAccion1DialogoBasico(t("Sí"));
       accion1DialogoBasico.current = eliminarPersona;
       setParametrosAccion1DialogoBasico(data);
-      setTextoAccion2DialogoBasico(t('texto_114'));
+      setTextoAccion2DialogoBasico(t("No"));
       accion2DialogoBasico.current = cerrarModalDialogoBasico;
       setParametrosAccion2DialogoBasico('');
       setModalDialogoBasico(true);
@@ -1242,10 +1242,10 @@ export const ContratoGarantia = () => {
       accionModalDialogoBasico.current = cerrarModalDialogoBasico;
       setTituloModalDialogoBasico(t('texto_286'));
       setContenidoModalDialogoBasico(t('texto_287'));
-      setTextoAccion1DialogoBasico(t('texto_113'));
+      setTextoAccion1DialogoBasico(t("Sí"));
       accion1DialogoBasico.current = contratoBaseDatos;
       setParametrosAccion1DialogoBasico();
-      setTextoAccion2DialogoBasico(t('texto_114'));
+      setTextoAccion2DialogoBasico(t("No"));
       accion2DialogoBasico.current = contratoEnLinea;
       setParametrosAccion2DialogoBasico('');
       setModalDialogoBasico(true);
@@ -1637,10 +1637,10 @@ export const ContratoGarantia = () => {
                                     <InputFormControlRHF nombre={'ciudad_domicilio'} control={control} etiqueta={t('texto_328')} textoAdicional={''} funcionAdicional={funcionAdicionalCiudadDomicilio} textoError={t('texto_329')} errorInput={errorCiudadDomicilio} />
                                   </Grid>
                                   <Grid key={'40'} size={{ xs : 12, sm : 12, md : 6, lg : 6, xl : 6 }}>
-                                    <InputFormControlRHF nombre={'email_arrendatario'} control={control} etiqueta={t('texto_209')} textoAdicional={''} funcionAdicional={funcionAdicionalEmail} textoError={t('texto_46')} errorInput={errorEmail} />
+                                    <InputFormControlRHF nombre={'email_arrendatario'} control={control} etiqueta={t('texto_209')} textoAdicional={''} funcionAdicional={funcionAdicionalEmail} textoError={t("El email es requerido")} errorInput={errorEmail} />
                                   </Grid>
                                   <Grid key={'50'} size={{ xs : 12, sm : 12, md : 6, lg : 6, xl : 6 }}>
-                                    <InputFormControlRHF nombre={'telefono_arrendatario'} control={control} etiqueta={t('texto_210')} textoAdicional={''} funcionAdicional={funcionAdicionalTelefono} textoError={t('texto_47')} errorInput={errorTelefono} />
+                                    <InputFormControlRHF nombre={'telefono_arrendatario'} control={control} etiqueta={t('texto_210')} textoAdicional={''} funcionAdicional={funcionAdicionalTelefono} textoError={t("El número de teléfono es requerido")} errorInput={errorTelefono} />
                                   </Grid>
                                   <Grid key={'60'} size={{ xs : 12, sm : 12, md : 6, lg : 6, xl : 6 }}>
                                     <InputRadioRHF nombre={'clasificacion_persona_juridica'} control={control} etiqueta={t('texto_274')} opcionesInputs={vectorOpcionesInputs['clasificacion_persona_juridica']} textoAdicional={''} funcionAdicional={funcionAdicionalClasificacionPersonaJuridica} textoError={t('texto_275')} errorInput={errorClasificacionPersonaJuridica} />            
@@ -1676,10 +1676,10 @@ export const ContratoGarantia = () => {
                                       <InputFormControlRHF nombre={'ciudad_domicilio'} control={control} etiqueta={t('texto_328')} textoAdicional={''} funcionAdicional={funcionAdicionalCiudadDomicilio} textoError={t('texto_329')} errorInput={errorCiudadDomicilio} />
                                     </Grid>
                                     <Grid key={'60'} size={{ xs : 12, sm : 12, md : 6, lg : 6, xl : 6 }}>
-                                      <InputFormControlRHF nombre={'email_arrendatario'} control={control} etiqueta={t('texto_209')} textoAdicional={''} funcionAdicional={funcionAdicionalEmail} textoError={t('texto_46')} errorInput={errorEmail} />
+                                      <InputFormControlRHF nombre={'email_arrendatario'} control={control} etiqueta={t('texto_209')} textoAdicional={''} funcionAdicional={funcionAdicionalEmail} textoError={t("El email es requerido")} errorInput={errorEmail} />
                                     </Grid>
                                     <Grid key={'70'} size={{ xs : 12, sm : 12, md : 6, lg : 6, xl : 6 }}>
-                                      <InputFormControlRHF nombre={'telefono_arrendatario'} control={control} etiqueta={t('texto_210')} textoAdicional={''} funcionAdicional={funcionAdicionalTelefono} textoError={t('texto_47')} errorInput={errorTelefono} />
+                                      <InputFormControlRHF nombre={'telefono_arrendatario'} control={control} etiqueta={t('texto_210')} textoAdicional={''} funcionAdicional={funcionAdicionalTelefono} textoError={t("El número de teléfono es requerido")} errorInput={errorTelefono} />
                                     </Grid>
                                     <Grid key={'80'} size={{ xs : 12, sm : 12, md : 6, lg : 6, xl : 6 }}>
                                       <InputRadioRHF nombre={'clasificacion_persona_fisica'} control={control} etiqueta={t('texto_272')} opcionesInputs={vectorOpcionesInputs['clasificacion_persona_fisica']} textoAdicional={''} funcionAdicional={funcionAdicionalClasificacionPersonaFisica} textoError={t('texto_273')} errorInput={errorClasificacionPersonaFisica} />            

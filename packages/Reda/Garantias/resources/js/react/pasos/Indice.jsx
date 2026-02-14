@@ -209,7 +209,7 @@ export const Indice = () => {
   const agenciaId = useRef(2);
   const agenteId = useRef(2);
   const rolUsuarioConectado = useRef(3);
-  const tipoAgenciaAgente = useRef('estate_agent');
+  const tipoAgenciaAgente = useRef('estate_agency');
   const urlAlmacenamiento = useRef('http://localhost/ofiliaria/backend_ofiliaria/public/storage/');
 
   const filtroBtnRef = useRef(null);
@@ -273,7 +273,6 @@ export const Indice = () => {
         return;
       }
     };
-    console.log('Compiló perfectamente en el servidor Vesta');
     configurarAcceso();
   }, []); // IMPORTANTE: Array vacío para que solo corra al cargar la App por primera vez
 
@@ -395,7 +394,7 @@ export const Indice = () => {
         setFormulario(<ListadoGarantias garantias={[]} meta={null} onPageChange={handlePageChange} nuevaGarantia={nuevaGarantia} openFiltroModal={() => setModalFiltroOpen(true)} />);
         if (desde === 3) {
           setTimeout(() => {
-            setAlertaFija(<AlertaError texto={t('No se encontraron garantías')} />);
+            setAlertaFija(<AlertaError texto={t('No se encontraron garantías x')} />);
           }, 1000);
           setTimeout(() => {
             setAlertaFija('');
@@ -434,7 +433,7 @@ export const Indice = () => {
   const obtenerLaGarantia = async (idGarantia) => {
     setGifEspere(<GifEspere />);
     try {
-      const respuesta = await axios.get(state.endpoint+'/garantias/show/'+idGarantia, {
+      const respuesta = await axios.get(inicioRuta.current+'garantias/show/'+idGarantia, {
         headers: {
           "Content-Type": "application/json", 
           "Accept": "application/json"
@@ -629,7 +628,7 @@ export const Indice = () => {
   const eliminarGarantia = async (id) => {
     setGifEspere(<GifEspere />);
     try {
-      const respuesta = await axios.post(state.endpoint+'/garantias/destroy/'+id, {}, { headers: { "Content-Type": "application/json", "Accept" :  "application/json"} });
+      const respuesta = await axios.post(inicioRuta.current+'garantias/destroy/'+id, {}, { headers: { "Content-Type": "application/json", "Accept" :  "application/json"} });
 
       setGifEspere('');
       if (respuesta.data.codigoRetorno === 0)
@@ -638,10 +637,11 @@ export const Indice = () => {
         setTimeout(() => {
           setAlertaFija('');
         }, 10000);
-        await obtenerGarantias(currentPage, perPage, 3, selectedEstatus);
+        await obtenerGarantias(currentPage, perPage, origen ? origen : 99);
       }
       else
       {
+        console.log('Error al eliminar la garantía:', respuesta.data.mensaje);
         setAlertaFija(<AlertaError texto={t("No se pudo eliminar la garantía")} />);
         setTimeout(() => {
           setAlertaFija('');
@@ -682,17 +682,36 @@ export const Indice = () => {
 
   const modalEliminarGarantia = (id) => {
     const garantia = garantias.find(g => g.id === id);
+    
+    console.log("Indice, validando que exista el nombre");
+
+    // 1. Validamos si existen los datos del arrendatario
+    // .trim() elimina espacios en blanco accidentales
+    const nombreCompleto = (garantia?.nombres_arrendatario || '').trim() + ' ' + (garantia?.apellidos_arrendatario || '').trim();
+    
+    // 2. Si el resultado es un string vacío, usamos el valor por defecto
+    const nombreArrendatario = nombreCompleto.trim() 
+      ? nombreCompleto 
+      : t("Arrendatario aún no registrado");
+  
     accionModalDialogo.current = cerrarModalDialogoBasico;
-    setTituloModalDialogo(t('texto_111'));
-    setContenidoModalDialogo(t('texto_112', {arrendatario : garantia.nombres_arrendatario+' '+garantia.apellidos_arrendatario}));
-    setTextoAccion1Dialogo(t('texto_113'));
+    setTituloModalDialogo(t("Eliminar Garantía"));
+    
+    // 3. Pasamos la variable ya procesada
+    setContenidoModalDialogo(
+      t("¿Está seguro de que desea eliminar la garantía de {{arrendatario}}?", { arrendatario: nombreArrendatario })
+    );
+  
+    setTextoAccion1Dialogo(t("Sí"));
     accion1Dialogo.current = eliminarGarantia;
     setParametrosAccion1Dialogo(id);
-    setTextoAccion2Dialogo(t('texto_114'));
+    
+    setTextoAccion2Dialogo(t("No"));
     accion2Dialogo.current = cerrarModalDialogoBasico;
     setParametrosAccion2Dialogo(id);
+    
     setModalDialogoBasico(true);
-  }
+  };  
 
   const modalLogin = () => {
     setTituloModalBasico(t('texto_115'));

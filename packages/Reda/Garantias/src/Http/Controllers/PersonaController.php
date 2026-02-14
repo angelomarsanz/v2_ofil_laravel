@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 use Reda\Garantias\Models\Persona;
+use Illuminate\Support\Facades\Log;
 
 class PersonaController extends Controller
 {
@@ -317,6 +318,7 @@ class PersonaController extends Controller
      */
     public function destroy($id)
     {
+        Log::info("Eliminando la persona con el id: ".$id);
         $persona = Persona::find($id);
 
         if (!$persona)

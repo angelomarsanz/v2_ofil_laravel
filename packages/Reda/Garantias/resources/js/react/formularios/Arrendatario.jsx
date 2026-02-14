@@ -1390,10 +1390,10 @@ export const Arrendatario = () => {
       accionModalDialogoBasico.current = cerrarModalDialogoBasico;
       setTituloModalDialogoBasico(t('texto_144'));
       setContenidoModalDialogoBasico(t('texto_145', {codeudor : codeudor}));
-      setTextoAccion1DialogoBasico(t('texto_113'));
+      setTextoAccion1DialogoBasico(t("Sí"));
       accion1DialogoBasico.current = eliminarPersona;
       setParametrosAccion1DialogoBasico(persona.id);
-      setTextoAccion2DialogoBasico(t('texto_114'));
+      setTextoAccion2DialogoBasico(t("No"));
       accion2DialogoBasico.current = cerrarModalDialogoBasico;
       setParametrosAccion2DialogoBasico('');
       setModalDialogoBasico(true);
@@ -2001,16 +2001,16 @@ export const Arrendatario = () => {
                         }
 
                         <Grid key={'9'} size={{ xs : 12, sm : 12, md : 6, lg : 6, xl : 6 }}>
-                          <InputFormControlRHF nombre={'email_arrendatario'} control={control} etiqueta={pasoFormulario.current == 'Arrendatario' ? t('texto_55') : t('texto_142') } textoAdicional={''} funcionAdicional={funcionAdicionalEmail} textoError={t('texto_46')} errorInput={errorEmail} />
+                          <InputFormControlRHF nombre={'email_arrendatario'} control={control} etiqueta={pasoFormulario.current == 'Arrendatario' ? t('texto_55') : t('texto_142') } textoAdicional={''} funcionAdicional={funcionAdicionalEmail} textoError={t("El email es requerido")} errorInput={errorEmail} />
                         </Grid>
 
                         <Grid key={'10'} size={{ xs : 12, sm : 12, md : 6, lg : 6, xl : 6 }}>
-                          <InputFormControlRHF nombre={'telefono_arrendatario'} control={control} etiqueta={pasoFormulario.current == 'Arrendatario' ? t('texto_56') : t('texto_143')} textoAdicional={''} funcionAdicional={funcionAdicionalTelefono} textoError={t('texto_47')} errorInput={errorTelefono} />
+                          <InputFormControlRHF nombre={'telefono_arrendatario'} control={control} etiqueta={pasoFormulario.current == 'Arrendatario' ? t('texto_56') : t('texto_143')} textoAdicional={''} funcionAdicional={funcionAdicionalTelefono} textoError={t("El número de teléfono es requerido")} errorInput={errorTelefono} />
                         </Grid>
                         {
                           mostrarMonedaIngreso &&
                             <Grid key={'11'} size={{ xs : 12, sm : 12, md : 6, lg : 6, xl : 6 }}>
-                              <InputSelectRHF nombre={'moneda_ingreso'} control={control} etiqueta={t('texto_57')} opcionesInputs={vectorOpcionesInputs['moneda']} textoAdicional={''} funcionAdicional={funcionAdicionalMonedaIngreso} textoError={t('texto_48')} errorInput={errorMoneda} />            
+                              <InputSelectRHF nombre={'moneda_ingreso'} control={control} etiqueta={t('texto_57')} opcionesInputs={vectorOpcionesInputs['moneda']} textoAdicional={''} funcionAdicional={funcionAdicionalMonedaIngreso} textoError={t("La moneda del ingreso es requerida")} errorInput={errorMoneda} />            
                             </Grid>
                         }
                         {

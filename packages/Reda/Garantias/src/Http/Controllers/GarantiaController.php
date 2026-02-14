@@ -15,6 +15,7 @@ use Reda\Garantias\Models\Garantia;
 
 use Reda\Garantias\Mail\MailEnvioGarantia;
 use Reda\Garantias\Mail\MailAprobacionRechazoGarantia;
+use Illuminate\Support\Facades\Log;
 
 class GarantiaController extends Controller
 {
@@ -1177,49 +1178,62 @@ class GarantiaController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Request $request, $id)
-    {        
-        $garantia = Garantia::find($id);
+    {       
+        try {
+            $garantia = Garantia::find($id);
 
-        if (!$garantia)
-        {
-            $mensaje = "Garantía no encontrada";
-            $datos =
-                [
+            if (!$garantia) {
+                Log::error("Intento de eliminación fallido: Garantía con ID $id no encontrada.");
+                return response()->json([
                     "codigoRetorno" => 1,
-                    "mensaje" => $mensaje,
-                ];
-            return $datos;
-        }
+                    "mensaje" => "Garantía no encontrada"
+                ], 404);
+            }
 
-        $garantia->update(['estatus_registro' => 'Eliminado']);  
+            // Actualizar estatus a Eliminado
+            $actualizado = $garantia->update(['estatus_registro' => 'Eliminado']);  
 
-        if (!$garantia)
-        {
-            $datos =
-                [
+            if (!$actualizado) {
+                Log::error("Error crítico: No se pudo actualizar el estatus_registro a 'Eliminado' para la garantía ID $id.");
+                return response()->json([
                     "codigoRetorno" => 2,
                     "mensaje" => "No se pudo eliminar la garantía"
-                ];
-            return response()->json($datos, 200);
-        }
+                ], 500);
+            }
 
-        $personas = $garantia->personas()
-                        ->where('estatus_registro', '=', 'Activo')
-                        ->get();
+            // Proceder con la eliminación lógica de las personas asociadas
+            $personas = $garantia->personas()
+                            ->where('estatus_registro', '=', 'Activo')
+                            ->get();
 
-        $controladorPersona = new PersonaController;
+            if ($personas->isNotEmpty()) {
+                Log::info("Eliminando " . $personas->count() . " personas asociadas a la garantía ID: $id");
                 
-        foreach ($personas as $persona)
-        {
-            $personaEliminada = $controladorPersona->destroy($persona->id);
-        }
-        
-        $datos =
-            [
+                $controladorPersona = new PersonaController;
+                        
+                foreach ($personas as $persona) {
+                    $controladorPersona->destroy($persona->id);
+                }
+            } else {
+                Log::info("No se encontraron personas asociadas activas para la garantía ID: $id. Saltando paso.");
+            }
+
+            return response()->json([
                 "codigoRetorno" => 0,
                 "mensaje" => 'Garantia eliminada' 
-            ];
+            ], 200);
 
-        return response()->json($datos, 200);    
+        } catch (\Exception $e) {
+            // Captura cualquier error inesperado (BD caída, error de sintaxis, etc.)
+            Log::error("Excepción detectada al eliminar garantía ID $id: " . $e->getMessage(), [
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ]);
+
+            return response()->json([
+                "codigoRetorno" => 500,
+                "mensaje" => "Ocurrió un error interno en el servidor"
+            ], 500);
+        }
     }
 }

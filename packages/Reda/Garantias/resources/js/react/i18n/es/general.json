@@ -87,11 +87,11 @@
 
     "El nombre de la empresa es requerido" : "El nombre de la empresa es requerido",
 
-    "texto_46" : "El email es requerido",
+    "El email es requerido" : "El email es requerido",
 
-    "texto_47" : "El número de teléfono es requerido",
+    "El número de teléfono es requerido" : "El número de teléfono es requerido",
 
-    "texto_48" : "La moneda del ingreso es requerida",
+    "La moneda del ingreso es requerida" : "La moneda del ingreso es requerida",
 
     "texto_49" : "El monto de los ingresos es requerido",
 
@@ -217,13 +217,13 @@
 
     "texto_110" : "seleccionada",
 
-    "texto_111" : "Eliminar Garantía",
+    "Eliminar Garantía" : "Eliminar Garantía",
 
-    "texto_112" : "¿Está seguro de que desea eliminar la garantía de {{arrendatario}} ?",
+    "¿Está seguro de que desea eliminar la garantía de arrendatario ?" : "¿Está seguro de que desea eliminar la garantía de {{arrendatario}} ?",
 
-    "texto_113" : "Sí",
+    "Sí" : "Sí",
 
-    "texto_114" : "No",
+    "No" : "No",
 
     "texto_115" : "Login",
 

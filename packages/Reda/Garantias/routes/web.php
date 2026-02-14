@@ -29,6 +29,10 @@ Route::domain($domain)->group(function () use ($domain, $pasosGarantia) {
     Route::prefix('admin')->middleware(['adminLang'])->group(function () use ($pasosGarantia) {
         Route::group(['middleware' => ['auth:admin', 'checkstatus']], function ()  use ($pasosGarantia) {
             Route::get('garantias', [GarantiaController::class, 'index'])->name('reda.admin.garantias.index');
+            Route::post('garantias/store', [GarantiaController::class, 'store'])->name('reda.admin.garantias.store');
+            Route::post('garantias/update/{id}', [GarantiaController::class, 'update'])->name('reda.admin.garantias.update');
+            Route::get('garantias/show/{id}', [GarantiaController::class, 'show'])->name('reda.admin.garantias.show');
+            Route::post('garantias/destroy/{id}', [GarantiaController::class, 'destroy'])->name('reda.agent.garantias.destroy');
             Route::get('garantias/busqueda-filtros', [GarantiaController::class, 'busquedaGarantias'])->name('reda.admin.garantias.busqueda');
             Route::get('garantias/usuario/verificar', [UsuarioController::class, 'verificarUsuarioConectado'])->name('reda.admin.garantias.usuario.verificar');
             Route::get('garantias/categorias', [CategoriaController::class, 'index'])->name('reda.admin.garantias.categorias.index');
@@ -45,6 +49,10 @@ Route::domain($domain)->group(function () use ($domain, $pasosGarantia) {
 // ----------------------------------------------------------------------
 Route::group(['prefix' => 'user', 'middleware' => ['auth:web', 'userstatus', 'TenantDashboardLang']], function () use ($pasosGarantia) {
     Route::get('garantias', [GarantiaController::class, 'index'])->name('reda.user.garantias.index');
+    Route::post('garantias/store', [GarantiaController::class, 'store'])->name('reda.user.garantias.store');
+    Route::post('garantias/update/{id}', [GarantiaController::class, 'update'])->name('reda.user.garantias.update');
+    Route::get('garantias/show/{id}', [GarantiaController::class, 'show'])->name('reda.user.garantias.show');
+    Route::post('garantias/destroy/{id}', [GarantiaController::class, 'destroy'])->name('reda.agent.garantias.destroy');
     Route::get('garantias/busqueda-filtros', [GarantiaController::class, 'busquedaGarantias'])->name('reda.user.garantias.busqueda');
     Route::get('garantias/usuario/verificar', [UsuarioController::class, 'verificarUsuarioConectado'])->name('reda.user.garantias.usuario.verificar');
     Route::get('garantias/categorias', [CategoriaController::class, 'index'])->name('reda.user.garantias.categorias.index');
@@ -69,6 +77,10 @@ Route::group([
         Route::group(['prefix' => 'agent', 'middleware' => ['auth:agent']], function () use ($pasosGarantia) {
 
             Route::get('garantias', [GarantiaController::class, 'index'])->name('reda.agent.garantias.index');
+            Route::post('garantias/store', [GarantiaController::class, 'store'])->name('reda.agent.garantias.store');
+            Route::post('garantias/update/{id}', [GarantiaController::class, 'update'])->name('reda.agent.garantias.update');
+            Route::get('garantias/show/{id}', [GarantiaController::class, 'show'])->name('reda.agent.garantias.show');
+            Route::post('garantias/destroy/{id}', [GarantiaController::class, 'destroy'])->name('reda.agent.garantias.destroy');
             Route::get('garantias/busqueda-filtros', [GarantiaController::class, 'busquedaGarantias'])->name('reda.agent.garantias.busqueda');
             Route::get('garantias/usuario/verificar', [UsuarioController::class, 'verificarUsuarioConectado'])->name('reda.agent.garantias.usuario.verificar');
             Route::get('garantias/categorias', [CategoriaController::class, 'index'])->name('reda.agent.garantias.categorias.index');
