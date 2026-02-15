@@ -167,7 +167,7 @@ export const SeleccionarAseguradora = () => {
                 respuesta.data.personas[i].sueldo = '';
             }
             setState({ ...guardarDatos, ...respuesta.data.personas[0], personas : respuesta.data.personas });
-            navigate(state.inicio_ruta+"datos-propiedad/"+respuesta.data.id);
+            navigate(state.inicio_ruta+"garantias/datos-propiedad/"+respuesta.data.id);
           }
           else
           {
@@ -198,7 +198,7 @@ export const SeleccionarAseguradora = () => {
           if (respuesta.data.codigoRetorno == 0)
           {
             setState({ ...state, aseguradora : aseguradora.nombre, cantidad_personas_adicionales : cantidadPersonasAdicionales, estatus_garantia : 'Paso 1, Borrador' });
-            navigate(state.inicio_ruta+"datos-propiedad/"+idGarantia);
+            navigate(state.inicio_ruta+"garantias/datos-propiedad/"+idGarantia);
           }
           else
           {

@@ -35,10 +35,10 @@ const generateRoleRoutes = (baseConfig) => {
     roles.forEach(role => {
       // Añadimos un asterisco opcional al final para que React Router 
       // siempre capture la ruta incluso si hay variaciones por el refresco
-      const pathWithSplat = `/${role.prefix}${route.path}/*`; 
+      const fullPath = `/${role.prefix}${route.path}`.replace(/\/+/g, '/');
       
       finalRoutes.push({
-        path: pathWithSplat,
+        path: fullPath,
         component: route.component,
         protected: route.protected
       });
@@ -50,17 +50,17 @@ const generateRoleRoutes = (baseConfig) => {
 // 2. DEFINICIÓN DE LOS PASOS (Configuración única)
 const processSteps = [
   { path: "/garantias", component: <Indice />, protected: false },
-  { path: "/seleccionar-aseguradora/:idGarantia", component: <SeleccionarAseguradora />, protected: true },
-  { path: "/datos-propiedad/:idGarantia", component: <DatosPropiedad />, protected: true },
-  { path: "/datos-arrendatario/:idPersona", component: <DatosArrendatario />, protected: true },
-  { path: "/personas-adicionales/:idPersona", component: <PersonasAdicionales />, protected: true },
-  { path: "/detalle-garantia/:idGarantia", component: <DetalleGarantia />, protected: true },
-  { path: "/garantia-enviada/:idGarantia", component: <GarantiaEnviada />, protected: true },
-  { path: "/revision-garantia/:idGarantia", component: <RevisionGarantia />, protected: true },
-  { path: "/contrato-garantia/:idGarantia", component: <ContratoGarantia />, protected: true },
-  { path: "/inventario-garantia/:idGarantia", component: <InventarioGarantia />, protected: true },
-  { path: "/firma-contrato/:idGarantia", component: <FirmaContrato />, protected: true },
-  { path: "/pago-garantia/:idGarantia", component: <PagoGarantia />, protected: true },
+  { path: "/garantias/seleccionar-aseguradora/:idGarantia", component: <SeleccionarAseguradora />, protected: true },
+  { path: "/garantias/datos-propiedad/:idGarantia", component: <DatosPropiedad />, protected: true },
+  { path: "/garantias/datos-arrendatario/:idPersona", component: <DatosArrendatario />, protected: true },
+  { path: "/garantias/personas-adicionales/:idPersona", component: <PersonasAdicionales />, protected: true },
+  { path: "/garantias/detalle-garantia/:idGarantia", component: <DetalleGarantia />, protected: true },
+  { path: "/garantias/garantia-enviada/:idGarantia", component: <GarantiaEnviada />, protected: true },
+  { path: "/garantias/revision-garantia/:idGarantia", component: <RevisionGarantia />, protected: true },
+  { path: "/garantias/contrato-garantia/:idGarantia", component: <ContratoGarantia />, protected: true },
+  { path: "/garantias/inventario-garantia/:idGarantia", component: <InventarioGarantia />, protected: true },
+  { path: "/garantias/firma-contrato/:idGarantia", component: <FirmaContrato />, protected: true },
+  { path: "/garantias/pago-garantia/:idGarantia", component: <PagoGarantia />, protected: true },
 ];
 
 // 3. GENERACIÓN DE LA LISTA FINAL

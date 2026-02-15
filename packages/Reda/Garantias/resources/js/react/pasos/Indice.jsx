@@ -233,7 +233,7 @@ export const Indice = () => {
       tipo_agencia_agente : tipoAgenciaAgente.current,
       url_almacenamiento : urlAlmacenamiento.current
     });
-    navigate(inicioRuta.current+'seleccionar-aseguradora/0');
+    navigate(inicioRuta.current+'garantias/seleccionar-aseguradora/0');
   }
 
   // 1. EFECTO DE CONFIGURACIÓN DE RUTA Y ROL
@@ -783,12 +783,12 @@ export const Indice = () => {
 
   const detalleGarantia = async (idGarantia) => {
     await obtenerLaGarantia(idGarantia);
-    navigate(inicioRuta.current+'detalle-garantia/'+idGarantia);
+    navigate(inicioRuta.current+'garantias/detalle-garantia/'+idGarantia);
   }
 
   const editarGarantia = async (idGarantia) => {
     await obtenerLaGarantia(idGarantia);
-    navigate(inicioRuta.current+'seleccionar-aseguradora/'+idGarantia)
+    navigate(inicioRuta.current+'garantias/seleccionar-aseguradora/'+idGarantia)
   }
 
   const tramitar = async (garantia) => {
@@ -804,34 +804,34 @@ export const Indice = () => {
         break;
       case 'Paso 5':
         await obtenerLaGarantia(id);
-        navigate(inicioRuta.current+'garantia-enviada/'+id)
+        navigate(inicioRuta.current+'garantias/garantia-enviada/'+id)
         break;
       case 'Paso 6':
         await obtenerLaGarantia(id);
-        navigate(inicioRuta.current+'revision-garantia/'+id)
+        navigate(inicioRuta.current+'garantias/revision-garantia/'+id)
         break;
       case 'Paso 7.1':
         await obtenerLaGarantia(id);
-        navigate(inicioRuta.current+'contrato-garantia/'+id);
+        navigate(inicioRuta.current+'garantias/contrato-garantia/'+id);
         break;
       case 'Paso 7.2':
         modalGarantiaRechazada(garantia);
         break;
       case 'Paso 8':
         await obtenerLaGarantia(id);
-        navigate(inicioRuta.current+'inventario-garantia/'+id)
+        navigate(inicioRuta.current+'garantias/inventario-garantia/'+id)
         break;
       case 'Paso 9':
         await obtenerLaGarantia(id);
-        navigate(inicioRuta.current+'firma-contrato/'+id)
+        navigate(inicioRuta.current+'garantias/firma-contrato/'+id)
         break;
       case 'Paso 10':
         await obtenerLaGarantia(id);
-        navigate(inicioRuta.current+'pago-garantia/'+id)
+        navigate(inicioRuta.current+'garantias/pago-garantia/'+id)
         break;
       case 'Paso 11':
         await obtenerLaGarantia(id);
-        navigate(inicioRuta.current+'pago-garantia/'+id)
+        navigate(inicioRuta.current+'garantias/pago-garantia/'+id)
         break;
     }
   }
