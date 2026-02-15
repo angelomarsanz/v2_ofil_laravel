@@ -63,7 +63,7 @@ const BotonesPasos = () => {
         }}
       >
         <div>
-          <Fab variant="extended" color="secondary" sx={{ fontSize : 12, borderRadius : 1}}  onClick={() => {navigate('/seleccionar-aseguradora/'+state.garantia_id)}} >
+          <Fab variant="extended" color="secondary" sx={{ fontSize : 12, borderRadius : 1}}  onClick={() => {navigate(state.inicio_ruta+'garantias/seleccionar-aseguradora/'+state.garantia_id)}} >
             <KeyboardArrowLeftIcon />
             Anterior
           </Fab>
@@ -280,7 +280,7 @@ const FormularioPropiedad = () => {
             await setState(datosActualizados);
           }
           let idPersona = state.id;
-          navigate("/datos-arrendatario/" + idPersona);
+          navigate(state.inicio_ruta+"garantias/datos-arrendatario/" + idPersona);
         }
         else {
           setAlertaFija(<AlertaError texto={t("Error al guardar los datos")} />);
@@ -304,7 +304,7 @@ const FormularioPropiedad = () => {
           <>
             <div className='botones_navegacion_fijos'>
               <div className='ra_nav_anterior'>
-                <Fab variant="extended" color="secondary" sx={{ fontSize : 12, borderRadius : 1}}  onClick={() => {navigate('/seleccionar-aseguradora/'+state.garantia_id)}} >
+                <Fab variant="extended" color="secondary" sx={{ fontSize : 12, borderRadius : 1}}  onClick={() => {navigate(state.inicio_ruta+'garantias/seleccionar-aseguradora/'+state.garantia_id)}} >
                   <KeyboardArrowLeftIcon />
                   Anterior
                 </Fab>
@@ -326,7 +326,7 @@ const FormularioPropiedad = () => {
               className='ra_ocultar'
             >
               <div>
-                <Fab variant="extended" color="secondary" sx={{ fontSize : 12, borderRadius : 1}}  onClick={() => {navigate('/seleccionar-aseguradora/'+state.garantia_id)}} >
+                <Fab variant="extended" color="secondary" sx={{ fontSize : 12, borderRadius : 1}}  onClick={() => {navigate(state.inicio_ruta+'garantias/seleccionar-aseguradora/'+state.garantia_id)}} >
                   <KeyboardArrowLeftIcon />
                   Anterior
                 </Fab>
@@ -532,8 +532,6 @@ export const DatosPropiedad = () => {
       logoAseguradora(state.aseguradora);
     })();
   }, []);
-
-  const navigate = useNavigate();
 
   const logoAseguradora = (aseguradora) => {
     switch (aseguradora) {
