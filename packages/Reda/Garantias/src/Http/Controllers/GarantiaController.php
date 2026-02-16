@@ -468,8 +468,15 @@ class GarantiaController extends Controller
      * Display the specified resource.
      */
     
-    public function show($id)
+    public function show($param1, $param2 = null)
     {
+        // Si $param2 es null, significa que la ruta solo envió un parámetro (Admin o User)
+        // Por lo tanto, $param1 es el ID.
+        // Si $param2 NO es null, significa que se enviaron dos (Agente)
+        // Por lo tanto, $param1 es el username y $param2 es el ID.
+        
+        $id = is_null($param2) ? $param1 : $param2;
+    
         $garantia = Garantia::find($id);
 
         if (!$garantia)
@@ -555,8 +562,13 @@ class GarantiaController extends Controller
      * Update the specified resource in storage.
      */
     
-    public function update(Request $request, $id)
+    public function update(Request $request, $param1, $param2 = null)
     {
+        // Lógica para detectar el ID
+        // Si $param2 es null, la ruta es /admin/... o /user/... y el ID está en $param1
+        // Si $param2 NO es null, la ruta es /{username}/agent/... y el ID está en $param2
+        $id = is_null($param2) ? $param1 : $param2;
+
         $mensaje = '';
         $inputsAseguradoras = [];
         $ambiente = '';
@@ -1177,8 +1189,15 @@ class GarantiaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, $id)
-    {       
+    public function destroy($param1, $param2 = null)
+    {
+        // Si $param2 es null, significa que la ruta solo envió un parámetro (Admin o User)
+        // Por lo tanto, $param1 es el ID.
+        // Si $param2 NO es null, significa que se enviaron dos (Agente)
+        // Por lo tanto, $param1 es el username y $param2 es el ID.
+        
+        $id = is_null($param2) ? $param1 : $param2;
+    
         try {
             $garantia = Garantia::find($id);
 

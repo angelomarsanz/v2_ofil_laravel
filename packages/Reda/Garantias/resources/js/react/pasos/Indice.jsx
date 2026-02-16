@@ -584,6 +584,8 @@ export const Indice = () => {
         let personasPreparadas = prepararCamposPersonas(respuesta.data.personas);
         respuesta.data.personas = personasPreparadas;
 
+        console.log("Indice, actualizando state...");
+
         setState({
           ...state,
           ...respuesta.data.garantia,
@@ -626,6 +628,7 @@ export const Indice = () => {
   }
 
   const eliminarGarantia = async (id) => {
+    console.log('id', id);
     setGifEspere(<GifEspere />);
     try {
       const respuesta = await axios.post(inicioRuta.current+'garantias/destroy/'+id, {}, { headers: { "Content-Type": "application/json", "Accept" :  "application/json"} });

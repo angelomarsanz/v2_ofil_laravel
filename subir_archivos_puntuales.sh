@@ -11,11 +11,7 @@
 #   )
 ARCHIVOS_PHP_PUNTUALES=(
         #"Ninguno"
-        "packages/Reda/Garantias/resources/js/react/vectores_objetos/datosInicio.jsx"
-        "packages/Reda/Garantias/resources/js/react/i18n/es/general.json"
         "packages/Reda/Garantias/routes/web.php"
-
-        "packages/Reda/Garantias/resources/js/react/varios/ReloadGuard.js"
-        "packages/Reda/Garantias/resources/js/react/App.jsx"
-        "packages/Reda/Garantias/resources/js/react/pasos/DatosPropiedad.jsx"
+        "packages/Reda/Garantias/resources/js/react/pasos/Indice.jsx"
+        "packages/Reda/Garantias/src/Http/Controllers/GarantiaController.php"
 )

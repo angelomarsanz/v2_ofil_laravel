@@ -52,7 +52,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth:web', 'userstatus', 'Te
     Route::post('garantias/store', [GarantiaController::class, 'store'])->name('reda.user.garantias.store');
     Route::post('garantias/update/{id}', [GarantiaController::class, 'update'])->name('reda.user.garantias.update');
     Route::get('garantias/show/{id}', [GarantiaController::class, 'show'])->name('reda.user.garantias.show');
-    Route::post('garantias/destroy/{id}', [GarantiaController::class, 'destroy'])->name('reda.agent.garantias.destroy');
+    Route::post('garantias/destroy/{id}', [GarantiaController::class, 'destroy'])->name('reda.user.garantias.destroy');
     Route::get('garantias/busqueda-filtros', [GarantiaController::class, 'busquedaGarantias'])->name('reda.user.garantias.busqueda');
     Route::get('garantias/usuario/verificar', [UsuarioController::class, 'verificarUsuarioConectado'])->name('reda.user.garantias.usuario.verificar');
     Route::get('garantias/categorias', [CategoriaController::class, 'index'])->name('reda.user.garantias.categorias.index');
@@ -84,9 +84,11 @@ Route::group([
             Route::get('garantias/busqueda-filtros', [GarantiaController::class, 'busquedaGarantias'])->name('reda.agent.garantias.busqueda');
             Route::get('garantias/usuario/verificar', [UsuarioController::class, 'verificarUsuarioConectado'])->name('reda.agent.garantias.usuario.verificar');
             Route::get('garantias/categorias', [CategoriaController::class, 'index'])->name('reda.agent.garantias.categorias.index');
-            Route::get("garantias/{step}/{id}", function () use ($pasosGarantia) {
-                return redirect()->route('reda.agent.garantias.index');
-            })->where('step', $pasosGarantia);
+            Route::get("garantias/{step}/{id}", function ($username, $step, $id) use ($pasosGarantia) {
+                // Al agregar $username a los argumentos de la función, Laravel lo toma de la URL actual
+                // Luego se lo pasamos explícitamente a la ruta de destino
+                return redirect()->route('reda.agent.garantias.index', ['username' => $username]);
+            })->where('step', $pasosGarantia);            
         });
     });
 });
