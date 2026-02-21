@@ -12,6 +12,7 @@ use App\Enums\TokenAbility;
 
 use App\Models\User;
 use Reda\Garantias\Models\Garantia;
+use App\Models\Property;
 
 use Reda\Garantias\Mail\MailEnvioGarantia;
 use Reda\Garantias\Mail\MailAprobacionRechazoGarantia;
@@ -1254,5 +1255,44 @@ class GarantiaController extends Controller
                 "mensaje" => "Ocurrió un error interno en el servidor"
             ], 500);
         }
+    }
+    
+    public function listadoInmuebles(Request $request)
+    {
+        // Validamos que llegue el id de la agencia
+        $agenciaId = $request->input('agencia_id');
+
+        if (!$agenciaId) {
+            return response()->json([
+                'codigoRetorno' => 1,
+                'mensaje' => 'ID de agencia no proporcionado',
+                'listado_inmuebles' => []
+            ], 400);
+        }
+
+        // Buscamos las propiedades y unimos con sus contenidos
+        // Nota: Filtramos por user_id (agencia)
+        $vectorInmuebles = DB::table('user_propieties as p')
+            ->join('user_property_contents as pc', 'p.id', '=', 'pc.property_id')
+            ->select('p.id', 'pc.title as name', 'pc.address as direccion')
+            ->where('p.user_id', $agenciaId)
+            ->get();
+
+        // Mapeamos el resultado para que coincida con el formato que espera tu componente
+        $vectorInmuebles = $inmuebles->map(function ($item) {
+            // Obtenemos el primer contenido disponible
+            $contenido = $item->contents->first();
+            return [
+                "id" => $item->id,
+                "name" => $contenido ? $contenido->title : 'Sin título',
+                "direccion" => $contenido ? $contenido->addres : 'Sin dirección'
+            ];
+        });
+
+        return response()->json([
+            'codigoRetorno' => 0,
+            'mensaje' => 'Búsqueda exitosa',
+            'listado_inmuebles' => $vectorInmuebles
+        ]);
     }
 }

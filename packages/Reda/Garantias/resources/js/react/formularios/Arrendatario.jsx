@@ -1966,13 +1966,13 @@ export const Arrendatario = () => {
                         {
                           mostrarNroIdentArrend && 
                             <Grid key={'3'} size={{ xs : 12, sm : 12, md : 6, lg : 6, xl : 6 }}>
-                              <InputFormControlRHF nombre={'numero_identidad_arrendatario'} control={control} etiqueta={t('texto_50')} textoAdicional={''} funcionAdicional={funcionAdicionalNroIdentArrend} textoError={t("El número de cédula es requerido")} errorInput={errorNroIdentArrend} />
+                              <InputFormControlRHF nombre={'numero_identidad_arrendatario'} control={control} etiqueta={t("Número de cédula *")} textoAdicional={''} funcionAdicional={funcionAdicionalNroIdentArrend} textoError={t("El número de cédula es requerido")} errorInput={errorNroIdentArrend} />
                             </Grid>
                         }
                         {
                           mostrarNombres && 
                             <Grid key={'4'} size={{ xs : 12, sm : 12, md : 6, lg : 6, xl : 6 }}>
-                              <InputFormControlRHF nombre={'nombres_arrendatario'} control={control} etiqueta={pasoFormulario.current == 'Arrendatario' ? t('texto_51') : t('texto_140')} textoAdicional={''} funcionAdicional={funcionAdicionalNombres} textoError={t("Los nombres son requeridos")} errorInput={errorNombres} />
+                              <InputFormControlRHF nombre={'nombres_arrendatario'} control={control} etiqueta={pasoFormulario.current == 'Arrendatario' ? t("Nombres del arrendatario *") : t('texto_140')} textoAdicional={''} funcionAdicional={funcionAdicionalNombres} textoError={t("Los nombres son requeridos")} errorInput={errorNombres} />
                             </Grid>
                         }
                         {
@@ -2016,7 +2016,7 @@ export const Arrendatario = () => {
                         {
                           mostrarMontoIngreso &&
                             <Grid key={'12'} size={{ xs : 12, sm : 12, md : 6, lg : 6, xl : 6 }}>
-                              <InputNumericFormatRHF nombre={'monto_ingreso'} control={control} etiqueta={t('texto_58')} textoAdicional={''} funcionAdicional={funcionAdicionalMontoIngreso} textoError={t('texto_49')} errorInput={errorMontoIngreso} />    
+                              <InputNumericFormatRHF nombre={'monto_ingreso'} control={control} etiqueta={t('texto_58')} textoAdicional={''} funcionAdicional={funcionAdicionalMontoIngreso} textoError={t("El monto de los ingresos es requerido")} errorInput={errorMontoIngreso} />    
                             </Grid>
                         }
                         {

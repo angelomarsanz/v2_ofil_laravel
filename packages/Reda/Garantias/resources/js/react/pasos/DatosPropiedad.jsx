@@ -32,11 +32,9 @@ import {
   InputFormControlRHF,
   InputNumericFormatRHF,
   InputSelectRHF,
+  PasoAPaso,
+  AlertaError
 } from '../mui';
-import { 
-    PasoAPaso 
-  } from '../mui';
-// import useDetectScroll, { Direction } from "@smakss/react-scroll-direction";
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
@@ -384,7 +382,7 @@ const FormularioPropiedad = () => {
 const BusquedaInmuebles = () => {
   const [state, setState] = useAppState();
   const [cargado, setCargado] = useState(false);
-  const [listadoInmuebles, setListadoInmuebles] = useState(null);
+  const [listadoInmuebles, setListadoInmuebles] = useState([]);
   const [botonesPasos, setBotonesPasos] = useState(<BotonesPasos />);
   const [formularioPropiedad, setFormularioPropiedad] = useState("");
   const [gifEspere, setGifEspere] = useState('');
@@ -396,60 +394,55 @@ const BusquedaInmuebles = () => {
       setBotonesPasos("");
       setFormularioPropiedad(<FormularioPropiedad />);
     }
-    if (state.ambiente == 'Desarrollo') {
-      setCargado(true);
-      setListadoInmuebles(listadoInmueblesDesarrollo);
-    }
-    else {
-      obtenerListadoInmuebles();
-    }
-
+    obtenerListadoInmuebles();
   }, []);
 
-  const listadoInmueblesDesarrollo = [
-    {
-      id: '1',
-      name: 'Casa',
-      direccion: 'Dirección casa'
-    },
-    {
-      id: '2',
-      name: 'Apartamento',
-      direccion: 'Dirección apartamento'
-    },
-    {
-      id: '3',
-      name: 'Local comercial',
-      direccion: 'Dirección apartamento'
-    },
-    {
-      id: '4',
-      name: 'Local comercial',
-      direccion: 'Dirección apartamento'
-    }
-  ];
-
   const obtenerListadoInmuebles = async () => {
-    const ajaxUrlReact = variables_php_javascript.ajax_url;
-    var params = new URLSearchParams();
-    params.append('action', 'listado_inmuebles');
-    params.append('agencia_id', state.agencia_id);
-    params.append('agente_id', state.agente_id);
-    setGifEspere(<GifEspere />);
-    try {
-      setGifEspere('');
-      const respuesta = await axios.post(ajaxUrlReact, params);
-      setCargado(true);
-      setListadoInmuebles(respuesta.data.listado_inmuebles);
-    } catch (error) {
-      setGifEspere('');
-      setAlertaFija(<AlertaError texto={t("Hubo un error en el servidor")} />);
-      setTimeout(() => {
-        setAlertaFija('');
-      }, 10000);
-      console.log('Error en el servidor', error);
+    const urlReact = state.inicio_ruta + 'garantias/listado-inmuebles';
+    const params = {
+      agencia_id: state.agencia_id,
+      agente_id: state.agente_id,
     };
-  }
+  
+    setGifEspere(<GifEspere />); //
+  
+    try {
+      const respuesta = await axios.post(urlReact, params, {
+        headers: { 
+          "Content-Type": "application/json", 
+          "Accept": "application/json" 
+        }
+      });
+  
+      // IMPORTANTE: Limpiar el GIF antes de cualquier otra lógica
+      setGifEspere(''); //
+      
+      if (respuesta.data.codigoRetorno === 0) {
+        setListadoInmuebles(respuesta.data.listado_inmuebles); //
+        setCargado(true); //
+      } else {
+        // Si el controlador responde pero con un error de lógica
+        setAlertaFija(<AlertaError texto={respuesta.data.mensaje} />);
+        setTimeout(() => setAlertaFija(''), 10000);
+      }
+  
+    } catch (error) {
+      console.error('Error detallado:', error);
+      
+      // 1. Quitamos el GIF inmediatamente
+      setGifEspere(''); //
+      
+      // 2. Forzamos que 'cargado' sea true para que el componente no se quede en bucle
+      setCargado(true); 
+      
+      // 3. Mostramos la alerta
+      setAlertaFija(<AlertaError texto={t("Hubo un error en el servidor")} />); //
+      
+      setTimeout(() => {
+        setAlertaFija(''); //
+      }, 10000);
+    }
+  }  
 
   const handleOnSearch = (string, results) => {
     // onSearch will have as the first callback parameter
@@ -487,7 +480,7 @@ const BusquedaInmuebles = () => {
           <header className="App-header">
             <div className='input_busqueda'>
               <ReactSearchAutocomplete
-                items={listadoInmuebles}
+                items={listadoInmuebles || []}
                 onSearch={handleOnSearch}
                 onHover={handleOnHover}
                 onSelect={handleOnSelect}

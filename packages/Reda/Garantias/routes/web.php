@@ -84,6 +84,7 @@ Route::group([
             Route::get('garantias/busqueda-filtros', [GarantiaController::class, 'busquedaGarantias'])->name('reda.agent.garantias.busqueda');
             Route::get('garantias/usuario/verificar', [UsuarioController::class, 'verificarUsuarioConectado'])->name('reda.agent.garantias.usuario.verificar');
             Route::get('garantias/categorias', [CategoriaController::class, 'index'])->name('reda.agent.garantias.categorias.index');
+            Route::post('garantias/listado-inmuebles', [GarantiaController::class, 'listadoInmuebles'])->name('reda.agent.garantias.categorias.listadoInmuebles');
             Route::get("garantias/{step}/{id}", function ($username, $step, $id) use ($pasosGarantia) {
                 // Al agregar $username a los argumentos de la función, Laravel lo toma de la URL actual
                 // Luego se lo pasamos explícitamente a la ruta de destino

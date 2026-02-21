@@ -1655,7 +1655,7 @@ export const ContratoGarantia = () => {
                                 <InputSelectRHF nombre={'tipo_documento_identidad'} control={control} etiqueta={t('texto_270')} opcionesInputs={vectorOpcionesInputs['tipo_documento_identidad']} textoAdicional={''} funcionAdicional={funcionAdicionalTipoDocumentoIdentidad} textoError={t('texto_271')} errorInput={errorTipoDocumentoIdentidad} />            
                               </Grid>
                               <Grid key={'20'} size={{ xs : 12, sm : 12, md : 6, lg : 6, xl : 6 }}>
-                                <InputFormControlRHF nombre={'numero_identidad_arrendatario'} control={control} etiqueta={t('texto_50')} textoAdicional={''} funcionAdicional={funcionAdicionalNroIdentArrend} textoError={t("El número de cédula es requerido")} errorInput={errorNroIdentArrend} />
+                                <InputFormControlRHF nombre={'numero_identidad_arrendatario'} control={control} etiqueta={t("Número de cédula *")} textoAdicional={''} funcionAdicional={funcionAdicionalNroIdentArrend} textoError={t("El número de cédula es requerido")} errorInput={errorNroIdentArrend} />
                               </Grid>
                               <Grid key={'30'} size={{ xs : 12, sm : 12, md : 6, lg : 6, xl : 6 }}>
                                 <InputFormControlRHF nombre={'nombres_arrendatario'} control={control} etiqueta={t('texto_207')} textoAdicional={''} funcionAdicional={funcionAdicionalNombres} textoError={t("Los nombres son requeridos")} errorInput={errorNombres} />
