@@ -96,7 +96,7 @@ const IdPropiedad = () => {
   );
 }
 
-const FormularioPropiedad = () => {
+const FormularioPropiedad = ({ mensajeError }) => {
   const [state, setState] = useAppState();
   const [idPropiedad, setIdPropiedad] = useState("");
   const [gifEspere, setGifEspere] = useState('');
@@ -108,27 +108,24 @@ const FormularioPropiedad = () => {
   const [errorMonedaPropiedad, setErrorMonedaPropiedad] = useState(false);
   const [errorCostoAlquiler, setErrorCostoAlquiler] = useState(false);
   const vectorOpcionesInputs = opcionesInputs();
-  // const { scrollDir, scrollPosition } = useDetectScroll();
 
   useEffect(() => {
     if (state.propiedad_id > 0) {
       setIdPropiedad(<IdPropiedad />);
     }
   }, []);
-
-  useEffect(() => { 
-    /* 
-    let elem = document.getElementById('caja_botones_navegacion');
-    if (isInViewport(elem)) 
-    {
-      const botonesNavegacionFijos = document.getElementsByClassName('botones_navegacion_fijos');   
-      for (var i = 0; i<botonesNavegacionFijos.length; i++) 
-      {
-        botonesNavegacionFijos[i].classList.add("ra_ocultar");
-      }
+ 
+  useEffect(() => {
+    if (mensajeError) {
+      // Si recibimos un mensaje, lo ponemos en la alerta interna del formulario
+      setAlertaFija(<AlertaError texto={mensajeError} />);
+      
+      // Opcional: limpiar la alerta después de unos segundos
+      setTimeout(() => {
+        setAlertaFija('');
+      }, 8000);
     }
-    */
-  });
+  }, [mensajeError]); 
 
   const {
     handleSubmit,
@@ -379,7 +376,7 @@ const FormularioPropiedad = () => {
   );
 }
 
-const BusquedaInmuebles = () => {
+const BusquedaInmuebles = ({ setDatosPropiedad, setValorPropiedadRadio }) => {
   const [state, setState] = useAppState();
   const [cargado, setCargado] = useState(false);
   const [listadoInmuebles, setListadoInmuebles] = useState([]);
@@ -394,10 +391,11 @@ const BusquedaInmuebles = () => {
       setBotonesPasos("");
       setFormularioPropiedad(<FormularioPropiedad />);
     }
-    obtenerListadoInmuebles();
+    obtenerListadoInmuebles(setDatosPropiedad, setValorPropiedadRadio);
   }, []);
 
-  const obtenerListadoInmuebles = async () => {
+  const obtenerListadoInmuebles = async (setDatosPropiedad, setValorPropiedadRadio) => {
+    console.log('Ejecuté obtenerListadoInmuebles');
     const urlReact = state.inicio_ruta + 'garantias/listado-inmuebles';
     const params = {
       agencia_id: state.agencia_id,
@@ -421,26 +419,29 @@ const BusquedaInmuebles = () => {
         setListadoInmuebles(respuesta.data.listado_inmuebles); //
         setCargado(true); //
       } else {
-        // Si el controlador responde pero con un error de lógica
-        setAlertaFija(<AlertaError texto={respuesta.data.mensaje} />);
-        setTimeout(() => setAlertaFija(''), 10000);
+        // Si el controlador responde pero con un error de lógica         
+        setValorPropiedadRadio('no_registrada');
+        setDatosPropiedad(
+          <FormularioPropiedad mensajeError={t("No se encontraron inmuebles registrados. Cargue los datos manualmente.")} />
+        );
       }
   
     } catch (error) {
       console.error('Error detallado:', error);
       
-      // 1. Quitamos el GIF inmediatamente
+      // Quitamos el GIF inmediatamente
       setGifEspere(''); //
+           
+      setValorPropiedadRadio('no_registrada');
+      setDatosPropiedad(<FormularioPropiedad />);
       
-      // 2. Forzamos que 'cargado' sea true para que el componente no se quede en bucle
-      setCargado(true); 
-      
-      // 3. Mostramos la alerta
-      setAlertaFija(<AlertaError texto={t("Hubo un error en el servidor")} />); //
-      
-      setTimeout(() => {
-        setAlertaFija(''); //
-      }, 10000);
+      // Cambiar Radio a "No"
+      setValorPropiedadRadio('no_registrada');
+
+      // Mostramos formulario propiedad
+      setDatosPropiedad(
+        <FormularioPropiedad mensajeError={t("Error de conexión con el servidor. Se habilitó la carga manual.")} />
+      );
     }
   }  
 
@@ -549,8 +550,14 @@ export const DatosPropiedad = () => {
     setValorPropiedadRadio(event.target.value);
     if (event.target.value == 'si_registrada')
     {
+      console.log("Se hizo clic en si_registrada");
       setState({ ...state, propiedad_registrada: event.target.value });
-      setDatosPropiedad(<BusquedaInmuebles />);
+      setDatosPropiedad(
+        <BusquedaInmuebles 
+          setDatosPropiedad={setDatosPropiedad} 
+          setValorPropiedadRadio={setValorPropiedadRadio} 
+        />
+      );
     }
     else
     {

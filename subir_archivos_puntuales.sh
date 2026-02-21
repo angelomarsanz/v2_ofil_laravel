@@ -12,6 +12,4 @@
 ARCHIVOS_PHP_PUNTUALES=(
         #"Ninguno"
         "packages/Reda/Garantias/resources/js/react/pasos/DatosPropiedad.jsx"
-        "packages/Reda/Garantias/routes/web.php"
-        "packages/Reda/Garantias/src/Http/Controllers/GarantiaController.php"
 )
