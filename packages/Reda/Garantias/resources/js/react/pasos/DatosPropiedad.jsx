@@ -125,6 +125,10 @@ const FormularioPropiedad = ({ mensajeError }) => {
         setAlertaFija('');
       }, 8000);
     }
+    else
+    {
+      setAlertaFija('');
+    }
   }, [mensajeError]); 
 
   const {
@@ -431,10 +435,7 @@ const BusquedaInmuebles = ({ setDatosPropiedad, setValorPropiedadRadio }) => {
       
       // Quitamos el GIF inmediatamente
       setGifEspere(''); //
-           
-      setValorPropiedadRadio('no_registrada');
-      setDatosPropiedad(<FormularioPropiedad />);
-      
+                
       // Cambiar Radio a "No"
       setValorPropiedadRadio('no_registrada');
 
@@ -517,7 +518,10 @@ export const DatosPropiedad = () => {
     (async () => {
       if (state.propiedad_registrada == 'si_registrada') {
         setValorPropiedadRadio(state.propiedad_registrada);
-        setDatosPropiedad(<BusquedaInmuebles />);
+        <BusquedaInmuebles 
+          setDatosPropiedad={setDatosPropiedad} 
+          setValorPropiedadRadio={setValorPropiedadRadio} 
+        />
       }
       else if (state.propiedad_registrada == 'no_registrada') {
         setValorPropiedadRadio(state.propiedad_registrada);

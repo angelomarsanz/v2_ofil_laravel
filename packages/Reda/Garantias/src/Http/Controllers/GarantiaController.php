@@ -13,6 +13,7 @@ use App\Enums\TokenAbility;
 use App\Models\User;
 use Reda\Garantias\Models\Garantia;
 use App\Models\Property;
+use App\Models\PropertyContent;
 
 use Reda\Garantias\Mail\MailEnvioGarantia;
 use Reda\Garantias\Mail\MailAprobacionRechazoGarantia;
@@ -1272,7 +1273,7 @@ class GarantiaController extends Controller
 
         // Buscamos las propiedades y unimos con sus contenidos
         // Nota: Filtramos por user_id (agencia)
-        $vectorInmuebles = DB::table('user_propieties as p')
+        $inmuebles = DB::table('user_properties as p')
             ->join('user_property_contents as pc', 'p.id', '=', 'pc.property_id')
             ->select('p.id', 'pc.title as name', 'pc.address as direccion')
             ->where('p.user_id', $agenciaId)
@@ -1280,12 +1281,10 @@ class GarantiaController extends Controller
 
         // Mapeamos el resultado para que coincida con el formato que espera tu componente
         $vectorInmuebles = $inmuebles->map(function ($item) {
-            // Obtenemos el primer contenido disponible
-            $contenido = $item->contents->first();
             return [
                 "id" => $item->id,
-                "name" => $contenido ? $contenido->title : 'Sin título',
-                "direccion" => $contenido ? $contenido->addres : 'Sin dirección'
+                "name" => $item->name,
+                "direccion" => $item->direccion
             ];
         });
 
