@@ -1978,7 +1978,7 @@ export const Arrendatario = () => {
                         {
                           mostrarApellidos && 
                             <Grid key={'5'} size={{ xs : 12, sm : 12, md : 6, lg : 6, xl : 6 }}>
-                              <InputFormControlRHF nombre={'apellidos_arrendatario'} control={control} etiqueta={pasoFormulario.current == 'Arrendatario' ? t('texto_52') : t('texto_141') } textoAdicional={''} funcionAdicional={funcionAdicionalApellidos} textoError={t("Los apellidos son requeridos")} errorInput={errorApellidos} />
+                              <InputFormControlRHF nombre={'apellidos_arrendatario'} control={control} etiqueta={pasoFormulario.current == 'Arrendatario' ? t("Apellidos del arrendatario *") : t('texto_141') } textoAdicional={''} funcionAdicional={funcionAdicionalApellidos} textoError={t("Los apellidos son requeridos")} errorInput={errorApellidos} />
                             </Grid>
                         }
                         {

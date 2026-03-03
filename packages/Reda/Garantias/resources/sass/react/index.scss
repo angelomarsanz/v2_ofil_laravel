@@ -350,9 +350,40 @@
       font-size: 14px;
       color: #d32f2f;
     }
+
     .input_busqueda {
-      width: 70%;
+      // Aplicamos esto a TODOS los descendientes directos que crea la librería
+      // hasta llegar al input, para que ninguno se estire.
+      
+      div[class^="sc-"], 
+      .wrapper,
+      header {
+        height: 44px !important;
+        min-height: 44px !important;
+        max-height: 44px !important; // Esto evita el rectángulo hacia abajo
+        overflow: visible !important; // Permite que la lista de sugerencias sí se vea
+      }
+    
+      .wrapper {
+        background-color: #e8e8e8 !important;
+        border-radius: 5px;
+        display: flex !important;
+        align-items: center !important;
+      }
+    
+      // Corregimos la posición del icono de búsqueda que a veces queda mal
+      .search-icon {
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
+      }
+    
+      input {
+        height: 44px !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+      }
     }
+
     .ra_nav_anterior
     {
       width: 10%;
@@ -622,10 +653,10 @@
         right: 35%;
         text-align: right;
     }    
-
     .input_busqueda {
-      width: 300px
-    }    
+      width: 100%; // Mejor usar 100% o un valor relativo que 300px fijos
+      max-width: 350px;
+    }
     .ra_tarjeta_aseguradora {
       width: 110px;
       border-radius: 15px;

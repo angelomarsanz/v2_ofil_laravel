@@ -478,26 +478,41 @@ const BusquedaInmuebles = ({ setDatosPropiedad, setValorPropiedadRadio }) => {
     return (
       <>
         <br />
-        <div className="App">
-          <header className="App-header">
-            <div className='input_busqueda'>
-              <ReactSearchAutocomplete
-                items={listadoInmuebles || []}
-                onSearch={handleOnSearch}
-                onHover={handleOnHover}
-                onSelect={handleOnSelect}
-                onFocus={handleOnFocus}
-                autoFocus
-                formatResult={formatResult}
-                styling={{ borderRadius: 5, backgroundColor: '#e8e8e8', position: 'absolute', zIndex: 1 }}
-              />
-            </div>
-          </header>
-        </div>
-        {botonesPasos}
-        {formularioPropiedad}
-        {gifEspere}
-        {alertaFija}
+        <Box sx={{ 
+          width: '100%', 
+          display: 'block', // Forzamos a que no se comporte como item flex estirable
+          mb: 2,
+          '& .input_busqueda': { 
+            height: '44px', // Limitamos la altura aquí también
+            width: { xs: '100%', md: '70%' }
+          }
+        }}>
+          <div className='input_busqueda'>
+            <ReactSearchAutocomplete
+              items={listadoInmuebles || []}
+              onSearch={handleOnSearch}
+              onHover={handleOnHover}
+              onSelect={handleOnSelect}
+              onFocus={handleOnFocus}
+              autoFocus
+              formatResult={formatResult}
+              styling={{ 
+                borderRadius: "5px", 
+                backgroundColor: '#e8e8e8', 
+                zIndex: 10,
+                height: "44px",
+                boxShadow: "none",
+                border: "1px solid #ccc"
+              }}
+            />
+          </div>
+          <Box sx={{ mt: 4, display: 'block', width: '100%' }}>
+            {botonesPasos}
+            {formularioPropiedad}
+            {gifEspere}
+            {alertaFija}
+          </Box>
+        </Box>
       </>
     );
   }
