@@ -352,37 +352,92 @@
     }
 
     .input_busqueda {
-      // Aplicamos esto a TODOS los descendientes directos que crea la librería
-      // hasta llegar al input, para que ninguno se estire.
-      
-      div[class^="sc-"], 
-      .wrapper,
-      header {
-        height: 44px !important;
-        min-height: 44px !important;
-        max-height: 44px !important; // Esto evita el rectángulo hacia abajo
-        overflow: visible !important; // Permite que la lista de sugerencias sí se vea
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 20px;
+      position: relative; // Vital para que la lista no empuje el formulario
+    
+      // El contenedor principal de la librería
+      .gRsuBN, .sc-dcJsrY { 
+        position: static !important; 
       }
     
+      // El wrapper que contiene el input + la lista
       .wrapper {
+
+        min-height: auto !important; // Esto anula el 100vh
+        height: 44px !important;     // Le damos la altura de un input normal
+        position: relative !important; // Evitamos que flote de forma extraña
+        top: auto !important;
+        width: 100% !important;
+        border: 1px solid #ccc !important;
+        border-radius: 8px !important;
         background-color: #e8e8e8 !important;
-        border-radius: 5px;
+        display: flex !important;
+        flex-direction: column !important;
+        z-index: 1000 !important;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+      }
+    
+      // El contenedor específico del INPUT
+      .dYrfwz, .sc-fqkvVR {
+        min-height: 44px !important;
+        height: 44px !important;
         display: flex !important;
         align-items: center !important;
+        padding: 0 10px !important;
+        position: relative !important;
       }
     
-      // Corregimos la posición del icono de búsqueda que a veces queda mal
+      // La LUPA
       .search-icon {
-        margin-bottom: 0 !important;
-        margin-top: 0 !important;
+        margin-right: 10px !important;
+        flex-shrink: 0 !important;
+        color: #666 !important;
       }
     
+      // El campo de texto (INPUT)
       input {
-        height: 44px !important;
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        outline: none !important;
+        padding: 0 !important;
+        border: none !important;
+        background: transparent !important;
+        font-size: 16px !important;
+        // Esto evita que el texto se monte en la lupa
+        text-indent: 5px !important; 
       }
-    }
+    
+      // El icono de BORRAR (X)
+      .clear-icon {
+        margin-left: 10px !important;
+        cursor: pointer;
+      }
+    
+      // --- LAS SUGERENCIAS (Lista desplegable) ---
+      ul {
+        margin: 0 !important;
+        padding: 0 !important;
+        list-style: none !important;
+        background: white !important;
+        border-top: 1px solid #eee !important;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+    
+      li {
+        padding: 12px 15px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        text-align: left !important;
+        cursor: pointer;
+        &:hover {
+          background-color: #f5f5f5 !important;
+        }
+      }
+    } 
 
     .ra_nav_anterior
     {

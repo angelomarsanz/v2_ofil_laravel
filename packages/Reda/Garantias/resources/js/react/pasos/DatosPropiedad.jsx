@@ -468,11 +468,11 @@ const BusquedaInmuebles = ({ setDatosPropiedad, setValorPropiedadRadio }) => {
 
   const formatResult = (item) => {
     return (
-      <>
-        <span style={{ display: 'block', textAlign: 'left' }}>{item.name}</span>
-      </>
-    )
-  }
+      <div style={{ textAlign: 'left', width: '100%', display: 'block' }}>
+        <span className="ra_fuente_14">{item.name}</span>
+      </div>
+    );
+  };
 
   const InputBusqueda = () => {
     return (
@@ -487,23 +487,23 @@ const BusquedaInmuebles = ({ setDatosPropiedad, setValorPropiedadRadio }) => {
             width: { xs: '100%', md: '70%' }
           }
         }}>
-          <div className='input_busqueda'>
+          {/* Contenedor con altura fija para evitar que el absolute tape otros campos */}
+          <div className="input_busqueda">
             <ReactSearchAutocomplete
               items={listadoInmuebles || []}
               onSearch={handleOnSearch}
-              onHover={handleOnHover}
               onSelect={handleOnSelect}
-              onFocus={handleOnFocus}
-              autoFocus
               formatResult={formatResult}
-              styling={{ 
-                borderRadius: "5px", 
-                backgroundColor: '#e8e8e8', 
-                zIndex: 10,
-                height: "44px",
+              styling={{
+                height: "45px",          // Fuerza la altura del input
+                border: "1px solid #ccc", 
+                borderRadius: "4px",
+                backgroundColor: "white",
+                zIndex: 1000,
                 boxShadow: "none",
-                border: "1px solid #ccc"
+                hoverBackgroundColor: "#f5f5f5",
               }}
+              autoFocus
             />
           </div>
           <Box sx={{ mt: 4, display: 'block', width: '100%' }}>
