@@ -28,7 +28,8 @@ import {
   }from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import PropTypes from 'prop-types';
-import { 
+import {
+  ModalBasico, 
   InputFormControlRHF,
   InputNumericFormatRHF,
   InputSelectRHF,
@@ -388,9 +389,28 @@ const BusquedaInmuebles = ({ setDatosPropiedad, setValorPropiedadRadio }) => {
   const [formularioPropiedad, setFormularioPropiedad] = useState("");
   const [gifEspere, setGifEspere] = useState('');
   const [alertaFija, setAlertaFija] = useState('');
+
+  const [modalBasico, setModalBasico] = useState(false);
+  const [tituloModalBasico, setTituloModalBasico] = useState("");
+  const [contenidoModalBasico, setContenidoModalBasico] = useState("");
+  const accionModalBasico = useRef();
+
   const { t } = useTranslation();
 
   useEffect(() => {
+    if (state.usuario_administrador === 'Sí') {
+      setTituloModalBasico(t("Acción no permitida"));
+      setContenidoModalBasico(t("Los usuarios Administradores no tienen propiedades registradas"));
+      accionModalBasico.current = () => {
+        setModalBasico(false);
+        // Opcional: Podrías cambiar el radio a 'no_registrada' automáticamente
+        setValorPropiedadRadio('no_registrada');
+        setDatosPropiedad(<FormularioPropiedad />);
+      };
+      setModalBasico(true);
+      setCargado(true); // Para que deje de mostrar el GifEspere inicial
+      return; // Detenemos la ejecución: NO se llama a obtenerListadoInmuebles
+    }
     if (state.propiedad_registrada == 'si_registrada') {
       setBotonesPasos("");
       setFormularioPropiedad(<FormularioPropiedad />);
@@ -399,7 +419,6 @@ const BusquedaInmuebles = ({ setDatosPropiedad, setValorPropiedadRadio }) => {
   }, []);
 
   const obtenerListadoInmuebles = async (setDatosPropiedad, setValorPropiedadRadio) => {
-    console.log('Ejecuté obtenerListadoInmuebles');
     const urlReact = state.inicio_ruta + 'garantias/listado-inmuebles';
     const params = {
       agencia_id: state.agencia_id,
@@ -513,6 +532,12 @@ const BusquedaInmuebles = ({ setDatosPropiedad, setValorPropiedadRadio }) => {
             {alertaFija}
           </Box>
         </Box>
+        <ModalBasico 
+          open={modalBasico} 
+          handleClose={accionModalBasico.current} 
+          tituloModal={tituloModalBasico} 
+          contenidoModal={contenidoModalBasico} 
+        />
       </>
     );
   }

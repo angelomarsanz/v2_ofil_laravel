@@ -741,6 +741,7 @@
 
     "Acción no permitida" : "Acción no permitida",
 
-    "Los usuarios Administradores no deben crear nuevas garantías, solo editarlas" : "Los usuarios Administradores no deben crear nuevas garantías, solo editarlas"
-    
+    "Los usuarios Administradores no deben crear nuevas garantías, solo editarlas" : "Los usuarios Administradores no deben crear nuevas garantías, solo editarlas",
+
+    "Los usuarios Administradores no tienen propiedades registradas" : "Los usuarios Administradores no tienen propiedades registradas"
 }

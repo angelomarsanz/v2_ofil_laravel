@@ -56,6 +56,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth:web', 'userstatus', 'Te
     Route::get('garantias/busqueda-filtros', [GarantiaController::class, 'busquedaGarantias'])->name('reda.user.garantias.busqueda');
     Route::get('garantias/usuario/verificar', [UsuarioController::class, 'verificarUsuarioConectado'])->name('reda.user.garantias.usuario.verificar');
     Route::get('garantias/categorias', [CategoriaController::class, 'index'])->name('reda.user.garantias.categorias.index');
+    Route::post('garantias/listado-inmuebles', [GarantiaController::class, 'listadoInmuebles'])->name('reda.user.garantias.categorias.listadoInmuebles');
     Route::get("garantias/{step}/{id}", function ()  use ($pasosGarantia) {
         return redirect()->route('reda.user.garantias.index');
     })->where('step', $pasosGarantia);
@@ -86,8 +87,6 @@ Route::group([
             Route::get('garantias/categorias', [CategoriaController::class, 'index'])->name('reda.agent.garantias.categorias.index');
             Route::post('garantias/listado-inmuebles', [GarantiaController::class, 'listadoInmuebles'])->name('reda.agent.garantias.categorias.listadoInmuebles');
             Route::get("garantias/{step}/{id}", function ($username, $step, $id) use ($pasosGarantia) {
-                // Al agregar $username a los argumentos de la función, Laravel lo toma de la URL actual
-                // Luego se lo pasamos explícitamente a la ruta de destino
                 return redirect()->route('reda.agent.garantias.index', ['username' => $username]);
             })->where('step', $pasosGarantia);            
         });
