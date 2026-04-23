@@ -88,7 +88,7 @@ Route::group([
             Route::post('garantias/listado-inmuebles', [GarantiaController::class, 'listadoInmuebles'])->name('reda.agent.garantias.categorias.listadoInmuebles');
             Route::get("garantias/{step}/{id}", function ($username, $step, $id) use ($pasosGarantia) {
                 return redirect()->route('reda.agent.garantias.index', ['username' => $username]);
-            })->where('step', $pasosGarantia);            
+            })->where('step', $pasosGarantia);
         });
     });
 });
